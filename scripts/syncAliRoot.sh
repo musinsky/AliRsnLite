@@ -135,6 +135,7 @@ CleanAliRsnLiteDirs
 
 
 cp -rf $ALICE_ROOT/cmake $MY_ALIRSNLITE_DIR/
+rm -rf $MY_ALIRSNLITE_DIR/cmake/.svn
 mkdir -p $MY_ALIRSNLITE_DIR/pars/tmp
 
 for MY_DIR in $MY_LIBS;do
