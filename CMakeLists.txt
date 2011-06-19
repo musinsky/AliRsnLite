@@ -51,11 +51,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib/tgt_${CMAKE_ALICE_
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib/tgt_${CMAKE_ALICE_TARGET}")
 set(CMAKE_INCLUDE_EXPORT_DIRECTORY "${PROJECT_BINARY_DIR}/include")
 file(MAKE_DIRECTORY ${CMAKE_INCLUDE_EXPORT_DIRECTORY})
-set(EXPORTDIRS "${ALICE_INSTALL}/include")
+set(EXPORTDIRS "${ROOTSYS}/include")
 set(BINLIBDIRS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
-
-
-
 #--------------------------------------------------------------------------------#
 # AliRoot Modules                                                                #
 #--------------------------------------------------------------------------------#
@@ -119,6 +116,6 @@ add_dependencies(ANALYSIS-headers "STEERBase-headers ESD-headers AOD-headers")
 add_dependencies(AOD-headers "STEERBase-headers")
 add_dependencies(ESD-headers "STEERBase-headers")
 
-include (InstallRequiredSystemLibraries)
+# include (InstallRequiredSystemLibraries)
 # include (CPack)
 
