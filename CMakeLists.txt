@@ -14,6 +14,14 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
 
 
+include(AliRsnLite_CMake)
+
+AliRsnLite_Sync()
+
+# message(STATUS "SRCS ${SRCS}")
+
+# message(FATAL_ERROR "END")
+
 include(ALICE_CMake)
 
 # ROOT
@@ -60,6 +68,17 @@ set(BINLIBDIRS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 # Standard Modules
 # ------------------------------
 set(ALIROOTMODULES STEER ANALYSIS OADB PWG2)
+
+set(ALIRSNLITE_PARS STEER/CMakelibSTEERBase.pkg 
+                    STEER/CMakelibESD.pkg
+                    STEER/CMakelibAOD.pkg
+                    ANALYSIS/CMakelibANALYSIS.pkg
+                    OADB/CMakelibOADB.pkg
+                    ANALYSIS/CMakelibANALYSISalice.pkg
+                    ANALYSIS/CMakelibEventMixing.pkg
+                    CORRFW/CMakelibCORRFW.pkg
+                    PWG2/CMakelibPWG2resonances.pkg)
+
 #  PWG2resonances
 # Set Final list of modules 
 set(MODULES ${ALIROOTMODULES} )
