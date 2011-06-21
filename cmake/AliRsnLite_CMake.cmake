@@ -4,10 +4,19 @@ cmake_minimum_required(VERSION 2.8.4 FATAL_ERROR)
 
 macro(AliRsnLite_Sync)
 
+  set(ALIRSNLITE_PARS STEER/CMakelibSTEERBase.pkg
+                      STEER/CMakelibESD.pkg
+                      STEER/CMakelibAOD.pkg
+                      ANALYSIS/CMakelibANALYSIS.pkg
+                      OADB/CMakelibOADB.pkg
+                      ANALYSIS/CMakelibANALYSISalice.pkg
+                      ANALYSIS/CMakelibEventMixing.pkg
+                      CORRFW/CMakelibCORRFW.pkg
+                      PWG2/CMakelibPWG2resonances.pkg)
+
   set(ALIRSNLITE_DIRS_RM STEER ANALYSIS)
 
   if(ALIRSNLITE_SYNC STREQUAL "YES")
-    message(STATUS "Yes i want to sync")
 
     set(ROOTHASXML "yes")
     # check for ALIRSNLITE_TAG
@@ -21,6 +30,7 @@ macro(AliRsnLite_Sync)
     # append aliroot cmake dir
     file(COPY ${ALIRSNLITE_SRC}/cmake/ DESTINATION ${CMAKE_SOURCE_DIR}/cmake PATTERN *.cmake)
     file(COPY ${ALIRSNLITE_SRC}/cmake/ DESTINATION ${CMAKE_SOURCE_DIR}/cmake PATTERN *.tmp)
+    file(REMOVE_RECURSE ${CMAKE_SOURCE_DIR}/cmake/.svn)
 
     foreach(myrmdir ${ALIRSNLITE_DIRS_RM})
       file(REMOVE_RECURSE ${myrmdir})
@@ -28,51 +38,51 @@ macro(AliRsnLite_Sync)
 
     foreach(file ${ALIRSNLITE_PARS})
       if(EXISTS ${ALIRSNLITE_SRC}/${file})
-#       message(STATUS "${ALIRSNLITE_SRC}/${file} is there")
-	get_filename_component(srcdir ${file} PATH)
-	file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/${srcdir})
-	file(COPY ${ALIRSNLITE_SRC}/${file} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
-# 	message(STATUS "myfile  ${CMAKE_SOURCE_DIR}/${file}")
+        get_filename_component(srcdir ${file} PATH)
+        file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/${srcdir})
+        file(COPY ${ALIRSNLITE_SRC}/${file} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
+        include(${CMAKE_SOURCE_DIR}/${file})
+        foreach(myfile ${SRCS})
+          get_filename_component(myfiledir ${myfile} PATH)
+          file(COPY ${ALIRSNLITE_SRC}/${srcdir}/${myfile} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir}/${myfiledir})
+        endforeach(myfile ${SRCS})
 
-	include(${CMAKE_SOURCE_DIR}/${file})
-	
-	foreach(myfile ${SRCS})
-	   get_filename_component(myfiledir ${myfile} PATH)
-	   file(COPY ${ALIRSNLITE_SRC}/${srcdir}/${myfile} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir}/${myfiledir})
-# 	   message(STATUS "*.cxx ${ALIRSNLITE_SRC}/${srcdir}/${myfile}")
-	endforeach(myfile ${SRCS})
+        string (REPLACE ".cxx" ".h" HDRS "${SRCS}")
+        foreach(myfile ${HDRS})
+          get_filename_component(myfiledir ${myfile} PATH)
+          file(COPY ${ALIRSNLITE_SRC}/${srcdir}/${myfile} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir}/${myfiledir})
+        endforeach(myfile ${HDRS})
 
-	string (REPLACE ".cxx" ".h" HDRS "${SRCS}")
-	foreach(myfile ${HDRS})
-	   get_filename_component(myfiledir ${myfile} PATH)
-	   file(COPY ${ALIRSNLITE_SRC}/${srcdir}/${myfile} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir}/${myfiledir})
-# 	   message(STATUS "*.h ${ALIRSNLITE_SRC}/${srcdir}/${myfile}")
-	endforeach(myfile ${HDRS})
-
-	# take PROOF-INF
-	string (REPLACE "CMakelib" "" PAR "${file}")
-	string (REPLACE ".pkg" "" PAR "${PAR}")
-	string (REPLACE "${srcdir}/" "" PAR "${PAR}")
-# 	message(STATUS "PAR ${PAR}")
-	file(COPY ${ALIRSNLITE_SRC}/${srcdir}/PROOF-INF.${PAR} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
-	file(COPY ${ALIRSNLITE_SRC}/${srcdir}/${PAR}LinkDef.h DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
-#   echo "set ( EXPORT \${HDRS})" >> $2/PWG2/CMakelibPWG2resonances.pkg
-	execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/scripts/patch-${PAR}.sh ${PAR} ${CMAKE_SOURCE_DIR})
+        # take PROOF-INF
+        string (REPLACE "CMakelib" "" PAR "${file}")
+        string (REPLACE ".pkg" "" PAR "${PAR}")
+        string (REPLACE "${srcdir}/" "" PAR "${PAR}")
+        file(COPY ${ALIRSNLITE_SRC}/${srcdir}/PROOF-INF.${PAR} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir} PATTERN .svn EXCLUDE)
+        file(COPY ${ALIRSNLITE_SRC}/${srcdir}/${PAR}LinkDef.h DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
+        execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/scripts/patch-${PAR}.sh ${PAR} ${CMAKE_SOURCE_DIR})
       endif(EXISTS ${ALIRSNLITE_SRC}/${file})
     endforeach(file ${ALIRSNLITE_PARS})
 
-    # remove tmp dir
-#     file(REMOVE_RECURSE ${MYTMPDIR})
- 
+    
+#     execute_process(COMMAND find ${CMAKE_SOURCE_DIR} -name .svn -exec rm -rf {} \; )
+#     execute_process(COMMAND find ${CMAKE_SOURCE_DIR} -name ".svn" -print)
 
+    message(STATUS "ALIRSNLITE_SRC is ${ALIRSNLITE_SRC}")
+
+    set(SRCS)
+    set(HDRS)
+    set(ROOTHASXML)
+
+    execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/scripts/post-sync.sh ${CMAKE_SOURCE_DIR})
+
+  else(ALIRSNLITE_SYNC STREQUAL "YES")
+    if(EXISTS ${CMAKE_SOURCE_DIR}/STEER)
+      message(STATUS "Sync is skipped")
+    else(EXISTS ${CMAKE_SOURCE_DIR}/STEER)
+      message(FATAL_ERROR "  cmake -DALIRSNLITE_SYNC=YES  ../")
+    endif(EXISTS ${CMAKE_SOURCE_DIR}/STEER)
+    
   endif(ALIRSNLITE_SYNC STREQUAL "YES")
-#   execute_process(COMMAND find ${CMAKE_SOURCE_DIR} -name "*~" -exec rm -f {} \; )
-  execute_process(COMMAND "find ./ -name \".svn\" | xargs rm -Rf")
 
-  message(STATUS "ALIRSNLITE_SRC is ${ALIRSNLITE_SRC}")
-
-  set(SRCS)
-  set(HDRS)
-  set(ROOTHASXML)
 
 endmacro(AliRsnLite_Sync)
