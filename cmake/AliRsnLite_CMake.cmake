@@ -59,11 +59,11 @@ macro(AliRsnLite_Sync)
         string (REPLACE "${srcdir}/" "" PAR "${PAR}")
         file(COPY ${ALIRSNLITE_SRC}/${srcdir}/PROOF-INF.${PAR} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir} PATTERN .svn EXCLUDE)
         file(COPY ${ALIRSNLITE_SRC}/${srcdir}/${PAR}LinkDef.h DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
+        file(COPY ${ALIRSNLITE_SRC}/${srcdir}/Makefile DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
         execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/scripts/patch-${PAR}.sh ${PAR} ${CMAKE_SOURCE_DIR})
       endif(EXISTS ${ALIRSNLITE_SRC}/${file})
     endforeach(file ${ALIRSNLITE_PARS})
 
-    
 #     execute_process(COMMAND find ${CMAKE_SOURCE_DIR} -name .svn -exec rm -rf {} \; )
 #     execute_process(COMMAND find ${CMAKE_SOURCE_DIR} -name ".svn" -print)
 
