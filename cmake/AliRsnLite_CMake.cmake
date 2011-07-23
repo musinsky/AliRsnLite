@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 2.8.4 FATAL_ERROR)
 
-
-
 macro(AliRsnLite_Sync)
 
   set(ALIRSNLITE_PARS STEER/CMakelibSTEERBase.pkg
@@ -18,7 +16,9 @@ macro(AliRsnLite_Sync)
 
   if(ALIRSNLITE_SYNC STREQUAL "YES")
 
+    # fix for alien classes to be included in project
     set(ROOTHASXML "yes")
+
     # check for ALIRSNLITE_TAG
     if(ALIRSNLITE_TAG)
       message(STATUS "ALICE_TAG is ${ALIRSNLITE_TAG}")
@@ -61,14 +61,11 @@ macro(AliRsnLite_Sync)
         file(COPY ${ALIRSNLITE_SRC}/${srcdir}/${PAR}LinkDef.h DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
         file(COPY ${ALIRSNLITE_SRC}/${srcdir}/Makefile DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
         execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/scripts/patch-${PAR}.sh ${PAR} ${CMAKE_SOURCE_DIR})
+      else(EXISTS ${ALIRSNLITE_SRC}/${file})
+        message(FATAL_ERROR "${ALIRSNLITE_SRC}/${file} doesn't exists !!!")
       endif(EXISTS ${ALIRSNLITE_SRC}/${file})
     endforeach(file ${ALIRSNLITE_PARS})
-
-#     execute_process(COMMAND find ${CMAKE_SOURCE_DIR} -name .svn -exec rm -rf {} \; )
-#     execute_process(COMMAND find ${CMAKE_SOURCE_DIR} -name ".svn" -print)
-
     message(STATUS "ALIRSNLITE_SRC is ${ALIRSNLITE_SRC}")
-
     set(SRCS)
     set(HDRS)
     set(ROOTHASXML)
