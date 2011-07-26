@@ -83,3 +83,11 @@ macro(AliRsnLite_Sync)
 
 
 endmacro(AliRsnLite_Sync)
+
+macro(AliRsnLite_KDevelop)
+  if(ENABLE_KDEVELOP STREQUAL "YES")
+    message(STATUS "Generatiing KDevelop settings ...")
+    file(COPY ${CMAKE_SOURCE_DIR}/cmake/AliRsnLite.kdev4 DESTINATION ${CMAKE_SOURCE_DIR}/)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/kdev_include_paths.tmp ${CMAKE_SOURCE_DIR}/.kdev_include_paths)
+  endif(ENABLE_KDEVELOP STREQUAL "YES")
+endmacro(AliRsnLite_KDevelop)

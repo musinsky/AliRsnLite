@@ -124,6 +124,8 @@ add_dependencies(ANALYSIS-headers "STEERBase-headers ESD-headers AOD-headers")
 add_dependencies(AOD-headers "STEERBase-headers")
 add_dependencies(ESD-headers "STEERBase-headers")
 
+AliRsnLite_KDevelop()
+
 # include (InstallRequiredSystemLibraries)
 # include (CPack)
 
