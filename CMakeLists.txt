@@ -1,44 +1,35 @@
-# -*- mode: cmake -*-
+# Top level CMakeList.txt file for the AliRsnLite
 
 cmake_minimum_required(VERSION 2.8.4 FATAL_ERROR)
 
-#--------------------------------------------------------------------------------#
-# Set Basic CMake Configuration                                                  #
-#--------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+# Set Basic CMake Configuration                                                #
+#------------------------------------------------------------------------------#
 
 project(AliRsnLite CXX C Fortran)
 
 get_filename_component(PROJECT_SOURCE_DIR "${PROJECT_SOURCE_DIR}" REALPATH)
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" "${PROJECT_SOURCE_DIR}/cmake/cmake_AliRoot")
 
-if (CMAKE_INSTALL_PREFIX  STREQUAL "/usr/local")
+if (CMAKE_INSTALL_PREFIX STREQUAL "/usr/local")
   set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
-endif (CMAKE_INSTALL_PREFIX  STREQUAL "/usr/local")
+endif (CMAKE_INSTALL_PREFIX STREQUAL "/usr/local")
 
 include(AliRsnLite_CMake)
-
 AliRsnLite_Sync()
-
-# message(STATUS "SRCS ${SRCS}")
-
-# message(FATAL_ERROR "END")
+AliRsnLite_KDevelop()
 
 include(ALICE_CMake)
 
-# ROOT
-# ------------------------------
+#------------------------------------------------------------------------------#
+# Find Packages                                                                #
+#------------------------------------------------------------------------------#
+
 find_package(ROOT REQUIRED)
 
-# IRST Rule Checker 
-# ------------------------------
-
-find_package(RuleChecker)
-
-
-
-#--------------------------------------------------------------------------------#
-# Environment/Compiler Configuration                                             #
-#--------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+# Environment/Compiler Configuration                                           #
+#------------------------------------------------------------------------------#
 
 ALICE_CheckOutOfSourceBuild()
 ALICE_RootConfig(CMAKE_CXX_COMPILER --cxx)
@@ -46,13 +37,11 @@ ALICE_RootConfig(CMAKE_C_COMPILER --cc)
 ALICE_RootConfig(CMAKE_Fortran_COMPILER --f77)
 ALICE_ConfigurePlatform()
 ALICE_ConfigureCompiler()
-
 ALICE_RootConfig(CMAKE_ALICE_TARGET --arch)
 
-
-#--------------------------------------------------------------------------------#
-# AliRoot Path Settings                                                          #
-#--------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+# AliRoot Path Settings                                                        #
+#------------------------------------------------------------------------------#
 
 ALICE_DevFlagsOutput()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin/tgt_${CMAKE_ALICE_TARGET}")
@@ -62,32 +51,28 @@ set(CMAKE_INCLUDE_EXPORT_DIRECTORY "${PROJECT_BINARY_DIR}/include")
 file(MAKE_DIRECTORY ${CMAKE_INCLUDE_EXPORT_DIRECTORY})
 set(EXPORTDIRS "${ROOTSYS}/include")
 set(BINLIBDIRS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
-#--------------------------------------------------------------------------------#
-# AliRoot Modules                                                                #
-#--------------------------------------------------------------------------------#
 
-# Standard Modules
-# ------------------------------
+#------------------------------------------------------------------------------#
+# AliRoot Modules                                                              #
+#------------------------------------------------------------------------------#
+
+# AliRsnLite Standard Modules
 set(ALIROOTMODULES STEER ANALYSIS OADB PWG2)
 
-#  PWG2resonances
-# Set Final list of modules 
-set(MODULES ${ALIROOTMODULES} )
+# Set Final list of modules
+set(MODULES ${ALIROOTMODULES})
 
 # Set Module directories
 set(MODDIRS ${MODULES})
 
 # Libraries for Linking
-# ------------------------------
-# set(ALILIBS STEERBase ESD AOD)
 set(LIBS ${ROOTCLIBS} ${ROOTPLIBS} ${SYSLIBS})
 
-#--------------------------------------------------------------------------------#
-# Build Modules                                                                  #
-#--------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+# Build Modules                                                                #
+#------------------------------------------------------------------------------#
 
 # Module Variables
-# ------------------------------
 set(ALLLIBS)
 set(ALLEXECS)
 set(INCLUDEFILES)
@@ -98,19 +83,17 @@ set(DEPLIB)
 add_custom_target(alilibs-static)
 add_custom_target(include-headers ALL)
 # add_custom_target(DA-all)
-# add_custom_target(check-all) 
+# add_custom_target(check-all)
 # add_custom_target(check-hxml)
-# add_custom_target(smell-all) 
-# add_custom_target(htmldoc) 
+# add_custom_target(smell-all)
+# add_custom_target(htmldoc)
 add_custom_target(par-all)
 add_custom_target(test-par-all)
 
-
-# Add Modules	
-# ------------------------------
+# Add Modules
 foreach(MODULE ${MODDIRS})
   set(${MODULE}ALIBS)
-  configure_file(${PROJECT_SOURCE_DIR}/cmake/Module.tmp ${PROJECT_SOURCE_DIR}/${MODULE}/CMakeLists.txt @ONLY)
+  configure_file(${PROJECT_SOURCE_DIR}/cmake/cmake_AliRoot/Module.tmp ${PROJECT_SOURCE_DIR}/${MODULE}/CMakeLists.txt @ONLY)
   add_custom_target(${MODULE}-all ALL)
   add_custom_target(${MODULE}-par-all)
   add_custom_target(test-${MODULE}-par-all)
@@ -125,9 +108,3 @@ add_dependencies(OADB-headers "STEERBase-headers ESD-headers AOD-headers ANALYSI
 add_dependencies(ANALYSIS-headers "STEERBase-headers ESD-headers AOD-headers")
 add_dependencies(AOD-headers "STEERBase-headers")
 add_dependencies(ESD-headers "STEERBase-headers")
-
-AliRsnLite_KDevelop()
-
-# include (InstallRequiredSystemLibraries)
-# include (CPack)
-
