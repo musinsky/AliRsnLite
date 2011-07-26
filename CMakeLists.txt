@@ -17,7 +17,6 @@ endif (CMAKE_INSTALL_PREFIX STREQUAL "/usr/local")
 
 include(AliRsnLite_CMake)
 AliRsnLite_Sync()
-AliRsnLite_KDevelop()
 
 include(ALICE_CMake)
 
@@ -57,7 +56,7 @@ set(BINLIBDIRS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 #------------------------------------------------------------------------------#
 
 # AliRsnLite Standard Modules
-set(ALIROOTMODULES STEER ANALYSIS OADB PWG2)
+set(ALIROOTMODULES STEER ANALYSIS OADB CORRFW PWG2)
 
 # Set Final list of modules
 set(MODULES ${ALIROOTMODULES})
@@ -102,9 +101,12 @@ foreach(MODULE ${MODDIRS})
   add_subdirectory(${MODULE})
 endforeach(MODULE)
 
-add_dependencies(PWG2resonances-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers OADB-headers ANALYSISalice-headers")
+add_dependencies(PWG2resonances-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers OADB-headers ANALYSISalice-headers CORRFW-headers")
+add_dependencies(CORRFW-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers OADB-headers ANALYSISalice-headers")
 add_dependencies(ANALYSISalice-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers OADB-headers")
 add_dependencies(OADB-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers")
 add_dependencies(ANALYSIS-headers "STEERBase-headers ESD-headers AOD-headers")
 add_dependencies(AOD-headers "STEERBase-headers")
 add_dependencies(ESD-headers "STEERBase-headers")
+
+AliRsnLite_KDevelop()
