@@ -37,7 +37,7 @@ function SetAliRsnLiteSrcDir() {
   ALIRSNLITE_WORKSRC="$ALIRSNLITE_SRC_DIR/macros/AliRsnLiteWork"
   ALIRSNLITE_TASKS_DIR="$ALIRSNLITE_WORKSRC/tasks"
 
-  test -d $ALIRSNLITE_TASKS_DIR && mkdir -p $ALIRSNLITE_TASKS_DIR
+  test -d $ALIRSNLITE_TASKS_DIR || mkdir -p $ALIRSNLITE_TASKS_DIR
 }
 
 function CreateParfiles() {
