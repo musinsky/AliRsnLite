@@ -11,7 +11,7 @@ AliAnalysisGrid *SetupAnalysisPlugin(TString analysisMode)
 
   // seutp aliroot version
 //    plugin->SetAliROOTVersion("v4-21-23-AN");
-  plugin->SetAliROOTVersion("v4-21-29-AN");
+  plugin->SetAliROOTVersion("v5-02-04-AN");
   // adds Proof setting
   MySetupAnalysisPluginProof(plugin);
 
@@ -24,13 +24,13 @@ AliAnalysisGrid *SetupAnalysisPlugin(TString analysisMode)
 void MySetupAnalysisPluginProof(AliAnalysisAlien *plugin)
 {
 
-//   plugin->SetProofParameter("PROOF_UseMergers", "-1");
+  plugin->SetProofParameter("PROOF_UseMergers", "-1");
 //   plugin->SetProofParameter("PROOF_ForceLocal", "1");
 
   plugin->SetProofCluster("alice-caf.cern.ch");
-  plugin->SetProofCluster("alice-caf.cern.ch:1099");
+//   plugin->SetProofCluster("alice-caf.cern.ch:1099");
 //     plugin->SetProofCluster("alicaf@alice-caf.cern.ch:1099");
-//    plugin->SetProofCluster("skaf.saske.sk");
+   plugin->SetProofCluster("skaf.saske.sk");
 //    plugin->SetProofCluster("skaf.saske.sk:1099");
   //   plugin->SetProofCluster("skaf-test.saske.sk");
 //    plugin->SetProofCluster("jraf.jinr.ru");
@@ -90,10 +90,14 @@ void MySetupAnalysisPluginProof(AliAnalysisAlien *plugin)
 
 //     plugin->SetProofDataSet("ds.txt");
       plugin->SetProofDataSet("DS_LHC10h_p2_AOD049.txt");
-//       plugin->SetProofDataSet("DS_LHC10h_p2_AOD049_1.txt");
+      plugin->SetProofDataSet("DS_LHC10h_p2_AOD049_1.txt");
 //       plugin->SetProofDataSet("DS_LHC10h_p2_AOD049_2.txt");
 //       plugin->SetProofDataSet("/alice/data/LHC10h_000138977_p2_AOD049");
 
+      
+   plugin->SetProofDataSet("/alice/sim/LHC11a10b_000137539_AOD048");
+//    plugin->SetProofDataSet("/alice/sim/LHC11a10b_000137432_AOD048");
+//     plugin->SetProofDataSet("/alice/sim/LHC10a20_140500");
 //     plugin->SetProofDataSet("LHC10b.txt");
 //     plugin->SetProofDataSet("/default/alicaf/LHC10a20_140500");
 

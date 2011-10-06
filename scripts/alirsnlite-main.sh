@@ -19,6 +19,7 @@ ALIRSNLITE_AN_PLUGIN_ARGS="grid:terminate"
 #ALIRSNLITE_AN_INPUT="esd:mc"
 ALIRSNLITE_AN_INPUT="aod"
 ALIRSNLITE_AN_EVENTS="1e10:0"
+ALIRSNLITE_MANAGERS=""
 
 function ShowHelp() {
   echo "HELP TODO"
@@ -113,7 +114,7 @@ function Run() {
   local AN_PATH="\$ALICE_ROOT"
   test "$ALIRSNLITE_USE_ENV" = "1" && AN_PATH="$ALIRSNLITE_SRC_DIR" 
 
-  MACRO="RunALICE.C(\"$AN_SRC\",\"$AN_MODE\",\"$AN_INPUT\",\"$AN_INPUT_MC\",$AN_EVENTS,$AN_EVENTS_SKIP,\"$AN_PATH\",\"$ALIRSNLITE_TASKS_DIR\")"
+  MACRO="RunALICE.C(\"$AN_SRC\",\"$AN_MODE\",\"$AN_INPUT\",\"$AN_INPUT_MC\",$AN_EVENTS,$AN_EVENTS_SKIP,\"$ALIRSNLITE_MANAGERS\",\"$AN_PATH\",\"$ALIRSNLITE_TASKS_DIR\")"
   echo "Running $PRE_CMD$CMD$ARGS$MACRO $POST_CMD ..."
   $PRE_CMD $CMD$ARGS$MACRO $POST_CMD
 }
@@ -178,6 +179,10 @@ while [[ $1 = -* ]]; do
       ALIRSNLITE_USE_ENV="1"
       export LD_LIBRARY_PATH="$ALIRSNLITE_SRC_DIR/lib/tgt_`root-config --arch`:$LD_LIBRARY_PATH"
       export PATH="$ALIRSNLITE_SRC_DIR/bin/tgt_`root-config --arch`:$PATH"
+    ;;
+    --managers)
+      ALIRSNLITE_MANAGERS="$1"
+      shift
     ;;
     *)
     ShowHelp

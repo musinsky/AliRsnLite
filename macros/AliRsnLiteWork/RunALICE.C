@@ -18,6 +18,7 @@ Bool_t RunALICE(TString anSrc = "grid",
                 TString inputMC="" /*or "mc"*/,
                 Long64_t nEvents = 1e10,
                 Long64_t nSkip = 0,
+		TString alirsnliteManagers ="",
                 TString alirsnlitesrc ="$ALICE_ROOT",
                 TString alirsnlitetasks ="") {
 
@@ -43,7 +44,7 @@ Bool_t RunALICE(TString anSrc = "grid",
   mgr->SetGridHandler(analysisPlugin);
 
 
-  TList *listManagers = CreateListOfManagersFromDir(alirsnlitetasks);
+  TList *listManagers = CreateListOfManagersFromDir(alirsnliteManagers,alirsnlitetasks);
   if (!listManagers) { Printf("Error : CreateListOfManagersFromDir failed !!!"); return kFALSE;}
   
   // adds all tasks
@@ -101,16 +102,24 @@ Bool_t CreateInputHandlers(TString input,TString inputMC,Bool_t useAODOut=kFALSE
   
 }
 
-TList *CreateListOfManagersFromDir(TString dir) {
+TList *CreateListOfManagersFromDir(TString listManagersNames="",TString dir="") {
 
-  if (dir.IsNull() || gSystem->AccessPathName(gSystem->ExpandPathName(dir.Data()))) {
-    Printf("Error [CreateListOfManagersFromDir] : Dir '%s' doesn't exists !!!",dir.Data());
-    return kFALSE;
+  TList *listManagers = new TList;
+  TString dirsStr;
+  TObjArray *dirs=0;
+  
+  if (listManagersNames.IsNull()) {
+    if (dir.IsNull() || gSystem->AccessPathName(gSystem->ExpandPathName(dir.Data()))) {
+      Printf("Error [CreateListOfManagersFromDir] : Dir '%s' doesn't exists !!!",dir.Data());
+      return 0;
+    }
+    dirsStr = gSystem->GetFromPipe(Form("ls %s",dir.Data()));
+    dirs = dirsStr.Tokenize("\n");
+  } else {
+    dirsStr = listManagersNames;
+    dirs = dirsStr.Tokenize(" ");
   }
   
-  TList *listManagers = new TList;
-  TString dirsStr = gSystem->GetFromPipe(Form("ls %s",dir.Data()));
-  TObjArray *dirs = dirsStr.Tokenize("\n");
   TIter next(dirs);
   Int_t counter=0;
   TObjString *str,*strtmp;
