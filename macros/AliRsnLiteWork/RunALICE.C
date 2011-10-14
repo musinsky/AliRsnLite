@@ -22,7 +22,7 @@ Bool_t RunALICE(TString anSrc = "grid",
                 TString alirsnlitesrc ="$ALICE_ROOT",
                 TString alirsnlitetasks ="",
                 Bool_t useMultiHandler=kTRUE,
-		TString dsName="") {
+                TString dsName="") {
 
    Printf("Working directory is %s ...", gSystem->WorkingDirectory());
 
@@ -45,8 +45,13 @@ Bool_t RunALICE(TString anSrc = "grid",
    if (!analysisPlugin) { Printf("Error : analysisPlugin is null !!!"); return kFALSE; }
    mgr->SetGridHandler(analysisPlugin);
    if (!dsName.IsNull()) {
-     if (!anMode.CompareTo("test")) analysisPlugin->SetFileForTestMode(dsName.Data());
-     else analysisPlugin->SetProofDataSet(dsName.Data());
+      if (!anSrc.CompareTo("proof") && !anMode.CompareTo("full")) {
+         analysisPlugin->SetProofDataSet(dsName.Data());
+         Printf(Form("Using DataSet %s ...",dsName.Data()));
+      } else {
+         analysisPlugin->SetFileForTestMode(dsName.Data());
+         Printf(Form("Using Test file %s ...",dsName.Data()));
+      }
    }
 
    TList *listManagers = CreateListOfManagersFromDir(alirsnliteManagers,alirsnlitetasks);
