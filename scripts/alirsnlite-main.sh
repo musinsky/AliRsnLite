@@ -20,6 +20,9 @@ ALIRSNLITE_AN_PLUGIN_ARGS="grid:terminate"
 ALIRSNLITE_AN_INPUT="aod"
 ALIRSNLITE_AN_EVENTS="1e10:0"
 ALIRSNLITE_MANAGERS=""
+ALIRSNLITE_DATASETS=""
+ALIRSNLITE_MULTI_INPUT_HANDLER="1"
+
 
 function ShowHelp() {
   echo "HELP TODO"
@@ -114,7 +117,7 @@ function Run() {
   local AN_PATH="\$ALICE_ROOT"
   test "$ALIRSNLITE_USE_ENV" = "1" && AN_PATH="$ALIRSNLITE_SRC_DIR" 
 
-  MACRO="RunALICE.C(\"$AN_SRC\",\"$AN_MODE\",\"$AN_INPUT\",\"$AN_INPUT_MC\",$AN_EVENTS,$AN_EVENTS_SKIP,\"$ALIRSNLITE_MANAGERS\",\"$AN_PATH\",\"$ALIRSNLITE_TASKS_DIR\")"
+  MACRO="RunALICE.C(\"$AN_SRC\",\"$AN_MODE\",\"$AN_INPUT\",\"$AN_INPUT_MC\",$AN_EVENTS,$AN_EVENTS_SKIP,\"$ALIRSNLITE_MANAGERS\",\"$AN_PATH\",\"$ALIRSNLITE_TASKS_DIR\",$ALIRSNLITE_MULTI_INPUT_HANDLER,\"$ALIRSNLITE_DATASETS\")"
   echo "Running $PRE_CMD$CMD$ARGS$MACRO $POST_CMD ..."
   $PRE_CMD $CMD$ARGS$MACRO $POST_CMD
 }
@@ -182,6 +185,14 @@ while [[ $1 = -* ]]; do
     ;;
     --managers)
       ALIRSNLITE_MANAGERS="$1"
+      shift
+    ;;
+    --dataset)
+      ALIRSNLITE_DATASETS="$1"
+      shift
+    ;;
+    --multi)
+      ALIRSNLITE_MULTI_INPUT_HANDLER="$1"
       shift
     ;;
     *)
