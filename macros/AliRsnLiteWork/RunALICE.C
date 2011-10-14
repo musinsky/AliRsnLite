@@ -37,7 +37,8 @@ Bool_t RunALICE(TString anSrc = "grid",
    if (mgr) delete mgr;
    mgr = new AliAnalysisManager("AliRsnLiteAM","AliRsnLite Analysis Manager");
 
-   CreateInputHandlers(input,inputMC,useMultiHandler);
+   Bool_t useAODOut = kFALSE;
+   CreateInputHandlers(input,inputMC,useAODOut,useMultiHandler);
 
    // add default grid handler
    gROOT->LoadMacro("SetupAnalysisPlugin.C");
