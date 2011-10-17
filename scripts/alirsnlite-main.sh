@@ -23,6 +23,7 @@ ALIRSNLITE_MANAGERS=""
 ALIRSNLITE_DATASETS=""
 ALIRSNLITE_MULTI_INPUT_HANDLER="1"
 ALIRSNLITE_AUTO_SET_ALIROOT_VERSION="1"
+ALIRSNLITE_PWD_USER="`pwd`"
 
 function ShowHelp() {
   echo "HELP TODO"
@@ -78,7 +79,15 @@ function InitWorkingDir() {
   cp -f $ALIRSNLITE_WORKSRC/*.C .
 
   # copy datasets txt files
-  test -d  $ALIRSNLITE_WORKSRC/datasets/ && cp -f $ALIRSNLITE_WORKSRC/datasets/* .
+  if [ -z "$ALIRSNLITE_DATASETS" ];then
+    test -d  $ALIRSNLITE_WORKSRC/datasets/ && cp -f $ALIRSNLITE_WORKSRC/datasets/* .
+  else
+    if [ -f $ALIRSNLITE_PWD_USER/$ALIRSNLITE_DATASETS ];then
+      cp -f $ALIRSNLITE_PWD_USER/$ALIRSNLITE_DATASETS .
+    else
+      test -f $ALIRSNLITE_WORKSRC/datasets/$ALIRSNLITE_DATASETS && cp -f $ALIRSNLITE_WORKSRC/datasets/$ALIRSNLITE_DATASETS .
+    fi
+  fi
 
   for MY_DIR in `ls $ALIRSNLITE_WORKSRC/tasks 2> /dev/null`;do
     echo "$ALIRSNLITE_TASKS_DIR/$MY_DIR"
