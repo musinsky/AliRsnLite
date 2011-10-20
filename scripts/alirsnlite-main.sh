@@ -47,6 +47,12 @@ function SetAliRsnLiteSrcDir() {
 
 function CreateParfiles() {
   local MY_PWD=`pwd`
+  if [ ! -d $ALIRSNLITE_SRC_DIR/build ];then
+    echo "AliRsnLite build ($ALIRSNLITE_SRC_DIR/build) directory doesn't exist !!!"
+    echo "Cannot create par files !!! "
+    echo "  You can remove '--pars' parameter."
+    exit 1
+  fi
   cd $ALIRSNLITE_SRC_DIR/build
   echo "Creating all parfiles ..."
   make par-all > /dev/null 2>&1
@@ -104,7 +110,9 @@ function InitWorkingDir() {
     fi
   done
 
-  test -n "$ALIRSNLITE_CREATE_PARS" && cp -f $ALIRSNLITE_SRC_DIR/pars/*.par .
+  test -n "$ALIRSNLITE_CREATE_PARS" && {
+    cp -f $ALIRSNLITE_SRC_DIR/pars/*.par . || exit 1
+  }
 
 }
 
