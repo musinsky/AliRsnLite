@@ -1,1 +1,10 @@
 # mvala (edited from web page)
+
+# run on PROOF
+# $ <AliRsnLite-path>/scripts/alirsnlite-main.sh --root.exe --plugin proof:full --input aod --dataset <dataset-name|txt-file-with-list-of-datasets>
+
+# run on GRID
+# $ <AliRsnLite-path>/scripts/alirsnlite-main.sh --root.exe --plugin grid:full --input aod
+
+# run MERGING on GRID after some jobs are done bash: y: command not found
+# $ <AliRsnLite-path>/scripts/alirsnlite-main.sh --root.exe --plugin grid:terminate --input aod 
