@@ -4,12 +4,13 @@
 #include <Rtypes.h>
 #include <TString.h>
 #include <TNamed.h>
-#include <TList.h>
-#include <ANALYSIS/AliAnalysisManager.h>
 #include <TObjArray.h>
 #include <TObjString.h>
-#include <AliMultiInputEventHandler.h>
-#include <AliAODHandler.h>
+#include <TList.h>
+#include <ANALYSIS/AliAnalysisManager.h>
+#include <ANALYSIS/AliMultiInputEventHandler.h>
+#include <STEER/AOD/AliAODHandler.h>
+#include <TStopwatch.h>
 #endif
 
 Bool_t RunALICE(TString anSrc = "grid",
@@ -23,8 +24,6 @@ Bool_t RunALICE(TString anSrc = "grid",
                 TString alirsnlitetasks ="",
                 Bool_t useMultiHandler=kTRUE,
                 TString dsName="") {
-
-   Printf("Working directory is %s ...", gSystem->WorkingDirectory());
 
    // some init work
    anSrc.ToLower(); anMode.ToLower(); input.ToLower(); inputMC.ToLower();
@@ -61,9 +60,14 @@ Bool_t RunALICE(TString anSrc = "grid",
    // adds all tasks
    if (!AddAllManagers(listManagers, anSrc, anMode,input,inputMC)) { Printf("Error : AddAllManagers failed !!!"); return kFALSE;}
 
+   TStopwatch timer;
+   timer.Start();
    // runs analysis
    if (!RunAnalysisManager(anSrc, anMode.Data(), nEvents, nSkip)) { Printf("Error : RunAnalysisManager failed !!!"); return kFALSE;}
 
+   timer.Stop();
+   timer.Print();
+   Printf("Working directory is %s ...", gSystem->WorkingDirectory());
    Printf("Done OK");
    return kTRUE;
 

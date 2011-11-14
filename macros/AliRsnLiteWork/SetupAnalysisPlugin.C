@@ -1,4 +1,8 @@
-#include "AliAnalysisAlien.h" //|
+#ifndef __CINT__
+#include <TSystem.h>
+#include <ANALYSIS/AliAnalysisAlien.h>
+#endif
+
 AliAnalysisGrid *SetupAnalysisPlugin(TString analysisMode)
 {
 
@@ -10,39 +14,33 @@ AliAnalysisGrid *SetupAnalysisPlugin(TString analysisMode)
   plugin->SetRunMode(analysisMode.Data());  // VERY IMPORTANT - DECRIBED BELOW
 
   // seutp aliroot version
-//    plugin->SetAliROOTVersion("v4-21-23-AN");
   TString alirootVersion = gSystem->GetFromPipe("aliroot --version | awk '{print $3}'");
 //   alirootVersion="v5-02-05-AN";
   plugin->SetAliROOTVersion(alirootVersion.Data());
   // adds Proof setting
-  MySetupAnalysisPluginProof(plugin);
-
+  MySetupAnalysisPluginProof(plugin,analysisMode);
+  
   // adds AliEn settings
   MySetupAnalysisPluginAliEn(plugin);
 
   return plugin;
 }
 
-void MySetupAnalysisPluginProof(AliAnalysisAlien *plugin)
+void MySetupAnalysisPluginProof(AliAnalysisAlien *plugin,TString analysisMode)
 {
 
   plugin->SetProofParameter("PROOF_UseMergers", "-1");
-//   plugin->SetProofParameter("PROOF_ForceLocal", "1");
-
+  if (!analysisMode.CompareTo("full")) plugin->SetProofParameter("PROOF_ForceLocal", "1");
   plugin->SetProofCluster("alice-caf.cern.ch");
 //   plugin->SetProofCluster("alice-caf.cern.ch:1099");
-//     plugin->SetProofCluster("alicaf@alice-caf.cern.ch:1099");
-   plugin->SetProofCluster("skaf.saske.sk");
+//    plugin->SetProofCluster("skaf.saske.sk");
 //    plugin->SetProofCluster("skaf.saske.sk:1099");
-  //   plugin->SetProofCluster("skaf-test.saske.sk");
-//    plugin->SetProofCluster("jraf.jinr.ru");
-//       plugin->SetProofCluster("kiaf.sdfarm.kr");
-//   plugin->SetProofCluster("localhost:1099");
+      plugin->SetProofCluster("kiaf.sdfarm.kr");
 
   // May need to reset proof. Supported modes: 0-no reset, 1-soft, 2-hard
   plugin->SetProofReset(0);
 // May limit the number of workers per slave. If used with SetNproofWorkers, SetParallel(nproofworkers) will be called after connection
-//   plugin->SetNproofWorkers(30);
+//   plugin->SetNproofWorkers(1);
 //    plugin->SetNproofWorkersPerSlave(1);
 // May request connection to alien upon connection to grid
 //    plugin->SetProofConnectGrid(kTRUE);
@@ -57,51 +55,15 @@ void MySetupAnalysisPluginProof(AliAnalysisAlien *plugin)
 // May request ClearPackages (individual ClearPackage not supported)
 //    plugin->SetClearPackages();
 // Plugin test mode works only providing a file containing test file locations
+
+  // test file
   plugin->SetFileForTestMode("ESD_alien_test.txt");
-//    plugin->SetFileForTestMode("VALA_ESD_LHC10b.txt");
-  plugin->SetFileForTestMode("VALA_ESD_LHC10h.txt");
-//    plugin->SetFileForTestMode("VALA_ESD_MC_LHC10d4.txt");
-//    plugin->SetFileForTestMode("VALA_AOD_MC_LHC10d4.txt");
-//    plugin->SetFileForTestMode("VALA_AOD_40_LHC10h.txt");
 
-  plugin->SetFileForTestMode("VALA_AOD049_LHC10h.txt");
-//    plugin->SetFileForTestMode("VALA_AOD049_LHC10h_orig.txt");
-
-  plugin->SetFileForTestMode("AOD_TEST.txt");
-
-  // Dataset to be used
-
-  // aod
-//    plugin->SetProofDataSet("/PWG2/mvala/LHC10b_000115401_p2_a017#aodTree");
-  plugin->SetProofDataSet("/alice/data/LHC10h_000137366_p2");
-  plugin->SetProofDataSet("/alice/data/LHC10h_000139038_p2");
-  plugin->SetProofDataSet("/alice/data/LHC10h_000138201_p2");
-//    plugin->SetProofDataSet("/alice/sim/LHC10d1_000117220_AOD056");
-
-//    plugin->SetProofDataSet("/alice/data/LHC10h_000138201_p2_AOD049#aodTree");
-//    plugin->SetProofDataSet("/alice/data/LHC10b_000115401_p2#esdTree");
-//     plugin->SetProofDataSet("/alice/sim/LHC10h9_000137366#esdTree");
-//       plugin->SetProofDataSet("/alice/sim/LHC10a12_104157#esdTree");
-//       plugin->SetProofDataSet("/alice/sim/LHC10g2d_130844#esdTree");
-//       plugin->SetProofDataSet("/alice/data/LHC10b_000117222_p2");
-//     plugin->SetProofDataSet("/alice/data/LHC10h_000137161_p1_plusplusplus");
-  //       plugin->SetProofDataSet("/alice/data/LHC10h_000137162_p2_AOD049#aodTree");
-//    plugin->SetProofDataSet("/alice/data/LHC10h_000138534_p2_AOD049");
-//    plugin->SetProofDataSet("/alice/data/LHC10h_000139467_p2_AOD049");
-   plugin->SetProofDataSet("/alice/sim/LHC10d2_117099");
-
-//     plugin->SetProofDataSet("ds.txt");
-      plugin->SetProofDataSet("DS_LHC10h_p2_AOD049.txt");
-      plugin->SetProofDataSet("DS_LHC10h_p2_AOD049_1.txt");
-//       plugin->SetProofDataSet("DS_LHC10h_p2_AOD049_2.txt");
-//       plugin->SetProofDataSet("/alice/data/LHC10h_000138977_p2_AOD049");
-
-      
+  // dataset
    plugin->SetProofDataSet("/alice/sim/LHC11a10b_000137539_AOD048");
-//    plugin->SetProofDataSet("/alice/sim/LHC11a10b_000137432_AOD048");
-//     plugin->SetProofDataSet("/alice/sim/LHC10a20_140500");
-//     plugin->SetProofDataSet("LHC10b.txt");
-//     plugin->SetProofDataSet("/default/alicaf/LHC10a20_140500");
+
+  // list of datasets in txt file
+  plugin->SetProofDataSet("DS_LHC10h_p2_AOD049.txt");
 
   //++++++++++++++ end PROOF ++++++++++++++++
 
