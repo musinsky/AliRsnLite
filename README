@@ -1,5 +1,17 @@
 # mvala (edited from web page)
 
+# cmake example from $ALICE_ROOT
+cd <AliRsnLite-path>
+mkdir build
+cd build
+cmake -DALIRSNLITE_SYNC=YES -DPWG2resonances="/home/mvala/projects/PWG2resonances" -DEventMixing="/home/mvala/projects/EventMixing/" ../
+
+# cmake example with external libs
+cd <AliRsnLite-path>
+mkdir build
+cd build
+cmake -DALIRSNLITE_SYNC=YES -DPWG2resonances="/home/mvala/projects/PWG2resonances" -DEventMixing="/home/mvala/projects/EventMixing/" ../
+
 # run on PROOF
 # $ <AliRsnLite-path>/scripts/alirsnlite-main.sh --root.exe --plugin proof:full --input aod --dataset <dataset-name|txt-file-with-list-of-datasets>
 
@@ -8,3 +20,4 @@
 
 # run MERGING on GRID after some jobs are done bash: y: command not found
 # $ <AliRsnLite-path>/scripts/alirsnlite-main.sh --root.exe --plugin grid:terminate --input aod 
+

@@ -36,8 +36,16 @@ macro(AliRsnLite_Sync)
       string (REPLACE ".pkg" "" PAR "${PAR}")
       string (REPLACE "${srcdir}/" "" PAR "${PAR}")
 
+      set(ALIRSNLITE_SRC "$ENV{ALICE_ROOT}")
+      if (${PAR})
+        message (STATUS "${PAR} custom path : ${${PAR}}")
+        set(ALIRSNLITE_SRC "${${PAR}}")
+      endif (${PAR})
+
       if(NOT EXISTS ${CMAKE_SOURCE_DIR}/${file})
-        message(STATUS "${PAR} [ OK ] ${CMAKE_SOURCE_DIR}/${file}")
+
+#         message(STATUS "${PAR} [ OK ] ${CMAKE_SOURCE_DIR}/${file}")
+        message(STATUS "${PAR} [ OK ] ${ALIRSNLITE_SRC}/${file}")
 
         if(EXISTS ${ALIRSNLITE_SRC}/${file})
           file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/${srcdir})
@@ -56,7 +64,13 @@ macro(AliRsnLite_Sync)
           # take PROOF-INF
           file(COPY ${ALIRSNLITE_SRC}/${srcdir}/PROOF-INF.${PAR} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir} PATTERN .svn EXCLUDE)
           file(COPY ${ALIRSNLITE_SRC}/${srcdir}/${PAR}LinkDef.h DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
-          file(COPY ${ALIRSNLITE_SRC}/${srcdir}/Makefile DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
+          if(EXISTS ${ALIRSNLITE_SRC}/${srcdir}/macros)
+            if(EXISTS ${CMAKE_SOURCE_DIR}/${srcdir}/macros)
+              message(STATUS "copying ${ALIRSNLITE_SRC}/${srcdir}/macros")
+              file(COPY ${ALIRSNLITE_SRC}/${srcdir}/macros DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
+            endif(EXISTS ${CMAKE_SOURCE_DIR}/${srcdir}/macros)
+          endif(EXISTS ${ALIRSNLITE_SRC}/${srcdir}/macros)
+#           file(COPY ${ALIRSNLITE_SRC}/${srcdir}/Makefile DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
           execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/cmake/scripts/patch-${PAR}.sh ${PAR} ${CMAKE_SOURCE_DIR})
 
         else(EXISTS ${ALIRSNLITE_SRC}/${file})
@@ -64,7 +78,7 @@ macro(AliRsnLite_Sync)
         endif(EXISTS ${ALIRSNLITE_SRC}/${file})
 
       else(NOT EXISTS ${CMAKE_SOURCE_DIR}/${file})
-        message(STATUS "${PAR} [ SKIPPED ] ${CMAKE_SOURCE_DIR}/${file}")
+        message(STATUS "${PAR} [ SKIPPED ] ${ALIRSNLITE_SRC}/${file}")
       endif(NOT EXISTS ${CMAKE_SOURCE_DIR}/${file})
 
     endforeach(file ${ALIRSNLITE_PARS})
@@ -72,6 +86,8 @@ macro(AliRsnLite_Sync)
     set(SRCS)
     set(HDRS)
     set(ROOTHASXML)
+
+    set(ALIRSNLITE_SRC "$ENV{ALICE_ROOT}")
     execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/cmake/scripts/post-sync.sh ${CMAKE_SOURCE_DIR})
 
   else(ALIRSNLITE_SYNC STREQUAL "YES")
