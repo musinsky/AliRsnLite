@@ -70,7 +70,7 @@ macro(AliRsnLite_Sync)
               file(COPY ${ALIRSNLITE_SRC}/${srcdir}/macros DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
             endif(EXISTS ${CMAKE_SOURCE_DIR}/${srcdir}/macros)
           endif(EXISTS ${ALIRSNLITE_SRC}/${srcdir}/macros)
-#           file(COPY ${ALIRSNLITE_SRC}/${srcdir}/Makefile DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
+          file(COPY ${ALIRSNLITE_SRC}/${srcdir}/Makefile DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
           execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/cmake/scripts/patch-${PAR}.sh ${PAR} ${CMAKE_SOURCE_DIR})
 
         else(EXISTS ${ALIRSNLITE_SRC}/${file})
