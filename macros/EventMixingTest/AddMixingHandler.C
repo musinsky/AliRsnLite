@@ -9,9 +9,9 @@
 
 void AddMixingHandler ( AliMultiInputEventHandler* multiInputHandler,TString format = "esd", Bool_t useMC = kFALSE, TString opts = "" ) {
 
-  const Int_t bufferSize = 1;
-  const Int_t mixNum = 2;
-  if ( !multiInputHandler ) return;
+    const Int_t bufferSize = 1;
+    const Int_t mixNum = 2;
+    if ( !multiInputHandler ) return;
 
     AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
     AliMixInputEventHandler *mixHandler = new AliMixInputEventHandler ( bufferSize, mixNum );
@@ -27,12 +27,12 @@ void AddMixingHandler ( AliMultiInputEventHandler* multiInputHandler,TString for
 //
 //    AliMixEventCutObj *multi = new AliMixEventCutObj(AliMixEventCutObj::kMultiplicity, 2, 5002, 100);
 //    AliMixEventCutObj *zvertex = new AliMixEventCutObj(AliMixEventCutObj::kZVertex, -10, 10, 1);
-// 
-//     AliMixEventCutObj *centrality = new AliMixEventCutObj ( AliMixEventCutObj::kCentrality, 0, 100, 10, "V0M" );
+//
+    AliMixEventCutObj *centrality = new AliMixEventCutObj ( AliMixEventCutObj::kCentrality, 0, 100, 10, "V0M" );
 //     AliMixEventCutObj *zvertex = new AliMixEventCutObj ( AliMixEventCutObj::kZVertex, -10, 10, 1 );
 
 //    evPool->AddCut(centrality);
-   evPool->AddCut(multi);
+    evPool->AddCut(multi);
     evPool->AddCut ( zvertex );
 
     // adds event pool (comment it and u will have default mixing)
@@ -47,5 +47,5 @@ void AddMixingHandler ( AliMultiInputEventHandler* multiInputHandler,TString for
     // adds mixing info task
     gROOT->LoadMacro ( "AddAnalysisTaskMixInfo.C" );
     AddAnalysisTaskMixInfo (opts );
-    
+
 }

@@ -3,13 +3,15 @@
 #include <PWG2/RESONANCES/AliRsnCutKaonForPhi2010.h>
 
 #endif
-Int_t AddDaughterCutsPhi2010KaonFromKStar(AliPID::EParticleType type1,AliPID::EParticleType type2,Bool_t isRsnMini=kFALSE,AliRsnInputHandler *rsnIH=0,AliAnalysisTaskSE *task=0)
+Int_t AddRsnDaughterCutsPhi2010KaonFromKStar(AliPID::EParticleType type1,AliPID::EParticleType type2,TString opt,Bool_t isRsnMini=kFALSE,AliRsnInputHandler *rsnIH=0,AliAnalysisTaskSE *task=0)
 {
 
    if (!rsnIH) return 0;
 
    // === USER HAS TO SET CORRECT NUMBER OF CUTS SETS =====
    Int_t numberOfCuts = 1;
+   
+   Printf("Option : %s",opt.Data());
 
    //---------------------------------------------
    //  Define single cuts

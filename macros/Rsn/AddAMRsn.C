@@ -12,31 +12,9 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
 {
 
    gROOT->LoadMacro("RsnManager.C");
-
-  
-//    Bool_t gRsnUseEventMixingPar       = 1;
-//    Bool_t gRsnUseRSNPar               = 0;
-// 
-//    Bool_t gRsnUsePhysSel              = 0;
-//    Bool_t gRsnUsePIDResponse          = 1;
-//    Bool_t gRsnUseRsnInputHandler      = 1;
-//    Bool_t gRsnUseMiniPackage              = 1;
-//    Bool_t gRsnUseMixing               = 1;
-//    Int_t  gRsnNumMix                  = 1;
-
    TList *listRsn = RsnManager();
 
-   
-   
-   
    Bool_t useMC = !inputMC.CompareTo("mc");
-
-   if (gRsnUseMiniPackage) {
-      gRsnUseRsnInputHandler = 0;
-   } else {
-//     gRsnUseMixing = 0;
-   }
-
 
    // ALICE stuff
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
@@ -74,7 +52,7 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
 
    if (gRsnUsePhysSel) {
       gROOT->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPhysicsSelection.C");
-      AddTaskPhysicsSelection(gRsnUseMC);
+      AddTaskPhysicsSelection(useMC);
 
       // maybe we can put it in $ALICE_ROOT/ANALYSIS/macros/AddTaskPhysicsSelection.C
       AliMultiInputEventHandler *multiIH = dynamic_cast<AliMultiInputEventHandler *>(mgr->GetInputEventHandler());
