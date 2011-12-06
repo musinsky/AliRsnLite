@@ -1,7 +1,7 @@
 
 // use parfiles instead of libs
 Bool_t gRsnUseEventMixingPar       = 0;
-Bool_t gRsnUseRSNPar               = 1;
+Bool_t gRsnUseRSNPar               = 0;
 
 // common options
 Bool_t gRsnUsePhysSel              = 0;
@@ -38,7 +38,7 @@ TList *RsnManager() {
 //    listRsn->Add(new TNamed("<Name>:mon","<CutName>:<opt>"));
    
    
-   listRsn->Add(new TNamed("Phi:mon","Phi2010"));
+//    listRsn->Add(new TNamed("Phi:mon","Phi2010"));
 //    listRsn->Add(new TNamed("Phi:mon","Phi2010:qualityonly"));
 //    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma1"));
 //    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma2"));
@@ -51,7 +51,7 @@ TList *RsnManager() {
 //    // in case you have MC
 //    listRsn->Add(new TNamed("Phi","PDG"));
 // 
-//    listRsn->Add(new TNamed("KStar","KStar2010"));
+   listRsn->Add(new TNamed("KStar","KStar2010"));
 //    listRsn->Add(new TNamed("KStar","BPID"));
 
    return listRsn;
@@ -62,6 +62,6 @@ void ExpertDefaultSetting() {
       gRsnUseRsnInputHandler = 0;
    } else  {
       gRsnSplitMgrByTasks = 0;
-      gRsnUseMixing = 0;
+//       gRsnUseMixing = 0;
    }
 }

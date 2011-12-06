@@ -1,6 +1,6 @@
 AliRsnCutSet *AddRsnCommonEventCuts(AliAnalysisTaskSE *task=0,Bool_t isPP=kTRUE) {
 
-   return 0;
+//    return 0;
    // primary vertex:
    // - 2nd argument --> |Vz| range
    // - 3rd argument --> minimum required number of contributors

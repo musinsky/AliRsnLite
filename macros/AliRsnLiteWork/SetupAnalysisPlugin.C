@@ -15,7 +15,7 @@ AliAnalysisGrid *SetupAnalysisPlugin(TString analysisMode)
 
   // seutp aliroot version
   TString alirootVersion = gSystem->GetFromPipe("aliroot --version | awk '{print $3}'");
-//   alirootVersion="v5-02-05-AN";
+//   alirootVersion="v5-02-13ubuntu-AN";
   plugin->SetAliROOTVersion(alirootVersion.Data());
   // adds Proof setting
   MySetupAnalysisPluginProof(plugin,analysisMode);

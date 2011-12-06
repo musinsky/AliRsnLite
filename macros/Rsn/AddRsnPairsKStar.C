@@ -81,7 +81,7 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
    for (Int_t i = 0; i < 10; i++) {
       if (!use[i]) continue;
       // create output
-      AliRsnMiniOutput *out = taskRsnMini->CreateOutput(Form("%s_%s", suffix.Data()), name[i].Data(), output[i].Data(), comp[i].Data());
+      AliRsnMiniOutput *out = taskRsnMini->CreateOutput(Form("%s_%s", suffix.Data(), name[i].Data()), output[i].Data(), comp[i].Data());
       // selection settings
       out->SetCutID(0, cutID1[i]);
       out->SetCutID(1, cutID2[i]);
