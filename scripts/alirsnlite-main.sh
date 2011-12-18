@@ -29,6 +29,17 @@ function ShowHelp() {
   exit 1
 }
 
+function CreateDir() {
+  
+  if [ -z "$1" ];then
+    return
+  fi
+  
+  if [ ! -d $1 ];then
+      mkdir -p $1  
+  fi
+}
+
 function SetAliRsnLiteSrcDir() {
   if [ "${0:0:1}" == "." ];then
     ALIRSNLITE_SRC_DIR="`cd ../;pwd`"
@@ -62,6 +73,8 @@ function CreateParfiles() {
 
 function InitWorkingDir() {
 
+  CreateDir $ALIRSNLITE_OUTDIR
+
   # generates id
   test -f $ALIRSNLITE_IDFILE || echo "0" > $ALIRSNLITE_IDFILE
   ALIRSNLITE_ID="`cat $ALIRSNLITE_IDFILE`"
@@ -94,13 +107,15 @@ function InitWorkingDir() {
     fi
   fi
 
-  for MY_DIR in `ls $ALIRSNLITE_WORKSRC/tasks 2> /dev/null`;do
-    echo "$ALIRSNLITE_TASKS_DIR/$MY_DIR"
-    if [ -d $ALIRSNLITE_TASKS_DIR/$MY_DIR -o -h $ALIRSNLITE_TASKS_DIR/$MY_DIR ];then
-      cp -f $ALIRSNLITE_TASKS_DIR/$MY_DIR/* .
+  for MY_DIR_NAME in `ls -1 $ALIRSNLITE_WORKSRC/tasks 2> /dev/null`;do
+    echo "$ALIRSNLITE_WORKSRC/tasks/$MY_DIR_NAME"
+    MY_DIR=`readlink $ALIRSNLITE_WORKSRC/tasks/$MY_DIR_NAME`
+    echo "MY_DIR : $MY_DIR"
+    if [ -d $MY_DIR -o -h $MY_DIR ];then
+      cp -f $MY_DIR/* .
       if [ ! $? -eq 0 ];then
         echo ""
-        echo "Error : Problem copying files from $ALIRSNLITE_TASKS_DIR/$MY_DIR to `pwd`"
+        echo "Error : Problem copying files from $MY_DIR to `pwd`"
         echo ""
         exit 2
       fi
