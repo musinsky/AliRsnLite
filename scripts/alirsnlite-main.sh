@@ -7,7 +7,7 @@ ARGS=" "
 MACRO=""
 USE_OLD_DIR=""
 ALIRSNLITE_OUTDIR="/tmp/alirsnlite"
-ALIRSNLITE_IDFILE="/tmp/.alirsnliteid"
+ALIRSNLITE_IDFILE="$ALIRSNLITE_OUTDIR/.alirsnliteid"
 ALIRSNLITE_ID="1"
 ALIRSNLITE_WKDIR=""
 ALIRSNLITE_SRC_DIR=""
@@ -16,7 +16,6 @@ ALIRSNLITE_TASKS_DIR=""
 ALIRSNLITE_USE_ENV=""
 ALIRSNLITE_CREATE_PARS=""
 ALIRSNLITE_AN_PLUGIN_ARGS="grid:terminate"
-#ALIRSNLITE_AN_INPUT="esd:mc"
 ALIRSNLITE_AN_INPUT="aod"
 ALIRSNLITE_AN_EVENTS="1e10:0"
 ALIRSNLITE_MANAGERS=""
@@ -117,7 +116,8 @@ function InitWorkingDir() {
 }
 
 function Run() {
-  test -n "$CMD" || ShowHelp
+  test -z "$CMD" && ShowHelp
+  
   # this is together because ARGS will have space in front and in back
   local AN_SRC=`echo "$ALIRSNLITE_AN_PLUGIN_ARGS" | awk -F ':' '{print $1}'`
   local AN_MODE=`echo "$ALIRSNLITE_AN_PLUGIN_ARGS" | awk -F ':' '{print $2}'`
