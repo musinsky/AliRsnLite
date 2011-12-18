@@ -1,3 +1,9 @@
 *~
 macros/AliRsnLiteWork/tasks/*
 cmake/cmake_AliRoot/
+ANALYSIS
+build
+CORRFW
+OADB
+PWG2
+STEER
