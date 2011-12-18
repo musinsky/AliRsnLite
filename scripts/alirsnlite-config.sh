@@ -66,7 +66,7 @@ while [[ $1 = -* ]]; do
     --list)
       ListMacros
     ;;
-    --set-tasks)
+    --set)
       SetMacros $*
     ;;
     *)
