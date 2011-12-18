@@ -1,8 +1,10 @@
 *~
 macros/AliRsnLiteWork/tasks/*
 cmake/cmake_AliRoot/
-ANALYSIS
 build
+lib
+include
+ANALYSIS
 CORRFW
 OADB
 PWG2
