@@ -1,0 +1,7 @@
+#Sun Dec 18 10:30:42 CET 2011
+eclipse.preferences.version=1
+environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/ROOTSYS_INCLUDE/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/ROOTSYS_INCLUDE/operation=replace
+environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/ROOTSYS_INCLUDE/value=${ROOTSYS}/include
+environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/append=true
+environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/appendContributed=true
