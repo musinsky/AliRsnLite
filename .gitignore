@@ -1,5 +1,5 @@
 *~
-macros/AliRsnLiteWork/tasks/*
+macros/AliRsnLiteWork/tasks
 cmake/cmake_AliRoot/
 build
 lib
