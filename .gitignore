@@ -4,6 +4,7 @@ cmake/cmake_AliRoot/
 build
 lib
 include
+pars
 ANALYSIS
 CORRFW
 OADB
