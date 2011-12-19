@@ -1,39 +1,19 @@
-
-// // use parfiles instead of libs
-// Bool_t gRsnUseEventMixingPar       = 0;
-// Bool_t gRsnUseRSNPar               = 0;
-//
-// // common options
-// Bool_t gRsnUsePhysSel              = 0;
-//
-// // rsn options
-// Bool_t gRsnUseMiniPackage          = 1;
-//
-// // mixing setting
-// Bool_t gRsnUseMixing               = 0;
-// Int_t  gRsnNumMix                  = 1;
-//
-// // oputput settings
-// Bool_t gRsnOutputFull              = 0;
-// Bool_t gRsnUseMCMomentum           = 0;
-//
-// // expert options (don't change)
-// Bool_t gRsnUsePIDResponse          = 1;
-// Bool_t gRsnUseRsnInputHandler      = 1;
-// Bool_t gRsnSplitMgrByTasks         = 1;
-// Int_t  gRsnMixPrintRefresh         = -1;
-
 TList *RsnManager() {
 
-   Int_t useRsnMini   = 1;
-   Int_t useMixing    = 0;
-   Int_t numMix       = 10;
+   Int_t useRsnMini     = 1;
 
-   Int_t fullOutput   = 0;
-   Int_t mcMomentum   = 0;
+   Int_t useMixing      = 0;
+   Int_t numMix         = 10;
+
+   Int_t fullOutput     = 0;
+   Int_t mcMomentum     = 0;
    
+   Int_t useEventMixPar = 0;
+   Int_t useRsnPar      = 0;
+
    TString legoTrainPath = "$ALICE_ROOT/PWG2/RESONANCES/macros/lego_train";
-//    legoTrainPath = "/home/mvala/projects/PWG2resonances/PWG2/RESONANCES/macros/lego_train";
+//   legoTrainPath = "/home/mvala/projects/PWG2resonances/PWG2/RESONANCES/macros/lego_train";
+
 
    TList *listRsn = new TList();
 
@@ -79,8 +59,8 @@ TList *RsnManager() {
    AliAnalysisManager::SetGlobalStr("rsnLegoTrainPath",legoTrainPath.Data());
 
    // use parfiles instead of libs
-   AliAnalysisManager::SetGlobalInt("rsnUseEventMixingPar",0);
-   AliAnalysisManager::SetGlobalInt("rsnUseRSNPar",0);
+   AliAnalysisManager::SetGlobalInt("rsnUseEventMixingPar",useEventMixPar);
+   AliAnalysisManager::SetGlobalInt("rsnUseRSNPar",useRsnPar);
 
    // common options
    AliAnalysisManager::SetGlobalInt("rsnUsePhysSel",0);
