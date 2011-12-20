@@ -28,14 +28,14 @@ TList *RsnManager() {
 
 //    listRsn->Add(new TNamed("Phi","Phi2010"));
    listRsn->Add(new TNamed("Phi","Phi2010:mon"));
-   listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_mon"));
-   listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma1_mon"));
-   listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma2_mon"));
-   listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma3_mon"));
-   listRsn->Add(new TNamed("Phi","Phi2010:tofonly_sigma1_mon"));
-   listRsn->Add(new TNamed("Phi","Phi2010:tofonly_sigma2_mon"));
-   listRsn->Add(new TNamed("Phi","Phi2010:tofonly_sigma3_mon"));
-   listRsn->Add(new TNamed("Phi","BPID:mon"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_mon"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma1_mon"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma2_mon"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma3_mon"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_sigma1_mon"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_sigma2_mon"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_sigma3_mon"));
+//    listRsn->Add(new TNamed("Phi","BPID:mon"));
 //
 //    // in case you have MC
 //    listRsn->Add(new TNamed("Phi","PDG:mon"));
