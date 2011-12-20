@@ -1,10 +1,10 @@
 void RsnGridPlugin() {
 
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
-   if (!mgr) { Printf("Error[RsnGridPlugin] mgr is null !!!"); return kFALSE; }
+   if (!mgr) { Printf("Error[RsnGridPlugin] mgr is null !!!"); return }
 
    AliAnalysisAlien *plugin = (AliAnalysisAlien *) mgr->GetGridHandler();
-   if (!plugin) { Printf("Error[RsnGridPlugin] : plugin is null !!!"); return kFALSE; }
+   if (!plugin) { Printf("Error[RsnGridPlugin] : plugin is null !!!"); return; }
 
    plugin->SetGridWorkingDir("RsnTrain/test/0002/");
    plugin->SetGridOutputDir("output"); // In this case will be $HOME/work/output

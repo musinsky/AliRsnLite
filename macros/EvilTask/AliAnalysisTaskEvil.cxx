@@ -8,6 +8,7 @@
 #include <TCanvas.h>
 #include <TSystem.h>
 
+#include "AliLog.h"
 #include "AliVEvent.h"
 #include "AliVParticle.h"
 
