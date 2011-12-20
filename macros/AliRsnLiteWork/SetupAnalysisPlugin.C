@@ -1,8 +1,3 @@
-#ifndef __CINT__
-#include <TSystem.h>
-#include <ANALYSIS/AliAnalysisAlien.h>
-#endif
-
 AliAnalysisGrid *SetupAnalysisPlugin(TString analysisMode)
 {
 
@@ -57,13 +52,13 @@ void MySetupAnalysisPluginProof(AliAnalysisAlien *plugin,TString analysisMode)
 // Plugin test mode works only providing a file containing test file locations
 
   // test file
-  plugin->SetFileForTestMode("ESD_alien_test.txt");
+  plugin->SetFileForTestMode("files.txt");
 
   // dataset
    plugin->SetProofDataSet("/alice/sim/LHC11a10b_000137539_AOD048");
 
   // list of datasets in txt file
-  plugin->SetProofDataSet("DS_LHC10h_p2_AOD049.txt");
+  plugin->SetProofDataSet("ds.txt");
 
   //++++++++++++++ end PROOF ++++++++++++++++
 

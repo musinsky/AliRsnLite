@@ -1,12 +1,3 @@
-#ifndef __CINT__
-#include <AliAnalysisManager.h>
-#include <AliMultiInputEventHandler.h>
-#include <ANALYSIS/EventMixing/AliMixEventPool.h>
-#include <ANALYSIS/EventMixing/AliMixEventCutObj.h>
-#include <PWG2/RESONANCES/AliRsnAnalysisTask.h>
-#include <PWG2/RESONANCES/AliRsnMiniAnalysisTask.h>
-#endif
-
 void AddMixingHandler ( AliMultiInputEventHandler* multiInputHandler,TString format = "esd", Bool_t useMC = kFALSE, TString opts = "" ) {
 
   const Int_t bufferSize = 1;

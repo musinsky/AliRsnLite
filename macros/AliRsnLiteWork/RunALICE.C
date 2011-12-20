@@ -1,18 +1,3 @@
-#ifndef __CINT__
-#include <TSystem.h>
-#include <TROOT.h>
-#include <Rtypes.h>
-#include <TString.h>
-#include <TNamed.h>
-#include <TObjArray.h>
-#include <TObjString.h>
-#include <TList.h>
-#include <ANALYSIS/AliAnalysisManager.h>
-#include <ANALYSIS/AliMultiInputEventHandler.h>
-#include <STEER/AOD/AliAODHandler.h>
-#include <TStopwatch.h>
-#endif
-
 Bool_t RunALICE(TString anSrc = "grid",
                 TString anMode = "terminate",
                 TString input="aod" /*or "esd"*/,
@@ -90,6 +75,8 @@ Int_t LoadLibsBase(TString alirsnlitesrc) {
 
    gSystem->AddIncludePath(Form("-I\"%s/include\"", gSystem->ExpandPathName(alirsnlitesrc.Data())));
    gROOT->ProcessLine(Form(".include %s/include", gSystem->ExpandPathName(alirsnlitesrc.Data())));
+
+   return 0;
 }
 
 Bool_t CreateInputHandlers(TString input,TString inputMC,Bool_t useAODOut=kFALSE,Bool_t useMultiHandler=kTRUE) {
@@ -125,6 +112,7 @@ Bool_t CreateInputHandlers(TString input,TString inputMC,Bool_t useAODOut=kFALSE
       mgr->SetOutputEventHandler(aodHandler);
    }
 
+   return kTRUE;
 }
 
 TList *CreateListOfManagersFromDir(TString listManagersNames="",TString dir="") {

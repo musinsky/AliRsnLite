@@ -1,13 +1,3 @@
-#ifndef __CINT__
-#include <TString.h>
-#include <TROOT.h>
-#include <TSystem.h>
-#include <ANALYSIS/AliAnalysisManager.h>
-#include <PWG2/RESONANCES/AliRsnInputHandler.h>
-#include <ANALYSIS/AliAnalysisAlien.h>
-#include <ANALYSIS/AliAnalysisTaskSE.h>
-#endif
-
 Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",TString input="aod",TString inputMC="", TString postfix = "",TString idStr="0")
 {
 
@@ -18,8 +8,8 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
    Bool_t valid;
 
    Int_t eventMixinPar = AliAnalysisManager::GetGlobalInt("rsnUseEventMixingPar",valid);
-   if (eventMixinPar) AliAnalysisManager::SetGlobalInt(rsnUseRSNPar,1);
    Int_t rsnPar = AliAnalysisManager::GetGlobalInt("rsnUseRSNPar",valid);
+   if (eventMixinPar) rsnPar = 1;
 
    Int_t pidResponse = AliAnalysisManager::GetGlobalInt("rsnUsePIDResponse",valid);
    Int_t useRsnIH = AliAnalysisManager::GetGlobalInt("rsnUseRsnInputHandler",valid);

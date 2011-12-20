@@ -1,9 +1,3 @@
-#ifndef __CINT__
-#include <TString.h>
-#include <ANALYSIS/AliAnalysisManager.h>
-#include <ANALYSIS/AliAnalysisDataContainer.h>
-#include "AliAnalysisTaskEvil.h"
-#endif
 AliAnalysisTask *AddEvilAnalysisTask(TString format = "esd", Bool_t useMC = kFALSE,TString postfix="")
 {
    // create manager
