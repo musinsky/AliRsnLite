@@ -19,11 +19,12 @@ Bool_t RunALICE(TString anSrc = "grid",
                 TString inputMC="" /*or "mc"*/,
                 Long64_t nEvents = 1e10,
                 Long64_t nSkip = 0,
+                TString dsName="",
                 TString alirsnliteManagers ="",
-                TString alirsnlitesrc ="$ALICE_ROOT",
-                TString alirsnlitetasks ="",
                 Bool_t useMultiHandler=kTRUE,
-                TString dsName="") {
+                TString alirsnlitesrc ="$ALICE_ROOT",
+                TString alirsnlitetasks =""
+                ) {
 
    // some init work
    anSrc.ToLower(); anMode.ToLower(); input.ToLower(); inputMC.ToLower();
