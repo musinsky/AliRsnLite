@@ -14,7 +14,7 @@ function SetAliRsnLiteSrcDir() {
 
 SetAliRsnLiteSrcDir
 
-DIRS_REMOVE="ANALYSIS CORRFW OADB PWG2 STEER lib include"
+DIRS_REMOVE="ANALYSIS CORRFW OADB PWG2 STEER lib include pars"
 
 for mydir in $DIRS_REMOVE;do 
   echo "Cleaning $ALIRSNLITE_SRC_DIR/$mydir ..."

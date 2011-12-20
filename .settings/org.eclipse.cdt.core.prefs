@@ -1,4 +1,10 @@
-#Mon Dec 19 13:57:53 CET 2011
+#Tue Dec 20 14:27:26 CET 2011
 eclipse.preferences.version=1
+environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/PATH/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/PATH/operation=replace
+environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/PATH/value=/home/mvala/.gentoo/alice/aliroot/bin/tgt_linuxx8664gcc\:/home/mvala/.gentoo/alice/root/bin/\:/home/mvala/.gentoo/alice/alien/bin/\:/home/mvala/.gentoo/alice/xrootd/bin/\:/usr/local/bin\:/usr/bin\:/bin\:/opt/bin\:/usr/x86_64-pc-linux-gnu/gcc-bin/4.6.2\:/usr/lib64/subversion/bin\:/usr/games/bin\:${CWD}
+environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/USER_CMAKE_EXTRA_OPTIONS/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/USER_CMAKE_EXTRA_OPTIONS/operation=append
+environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/USER_CMAKE_EXTRA_OPTIONS/value=
 environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/append=true
 environment/project/cdt.managedbuild.toolchain.gnu.base.625737664/appendContributed=true
