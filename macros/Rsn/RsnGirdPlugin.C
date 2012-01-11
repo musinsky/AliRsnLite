@@ -1,19 +1,22 @@
-void RsnGridPlugin() {
+void RsnGridPlugin(TString dsConfig = "LHC10h_p2_AOD073.txt",Int_t id=0) {
 
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
-   if (!mgr) { Printf("Error[RsnGridPlugin] mgr is null !!!"); return }
+   if (!mgr) { Printf("Error[RsnGridPlugin] mgr is null !!!"); return; }
 
    AliAnalysisAlien *plugin = (AliAnalysisAlien *) mgr->GetGridHandler();
    if (!plugin) { Printf("Error[RsnGridPlugin] : plugin is null !!!"); return; }
 
-   plugin->SetGridWorkingDir("RsnTrain/test/0002/");
+   TString rsnTrainName = dsConfig;
+   rsnTrainName.ReplaceAll(".txt",Form("/%03d",id));
+
+   plugin->SetGridWorkingDir(Form("RsnTrain/%s",rsnTrainName.Data()));
    plugin->SetGridOutputDir("output"); // In this case will be $HOME/work/output
 
    plugin->SetAPIVersion("V1.1x");
    plugin->SetROOTVersion("v5-30-03-1");
 
-   TString alirootVersion="v5-02-14-AN";
-//    alirootVersion = gSystem->GetFromPipe("aliroot --version | awk '{print $3}'");
+   TString alirootVersion="v5-02-15-AN";
+   alirootVersion = gSystem->GetFromPipe("aliroot --version | awk '{print $3}'");
 
    plugin->SetAliROOTVersion(alirootVersion.Data());
 
@@ -28,62 +31,70 @@ void RsnGridPlugin() {
    plugin->SetSplitMode("se");
    plugin->SetNtestFiles(2);
    plugin->SetMergeViaJDL();
-//    plugin->SetKeepLogs(kTRUE);
+   //    plugin->SetKeepLogs(kTRUE);
 
-   RsnSetData(plugin,"MY_DS","aod",kTRUE);
-   plugin->SetSplitMaxInputFileNumber(100);
+   RsnSetData(plugin,dsConfig);
+
+   plugin->SetSplitMaxInputFileNumber(50);
+
+//   Fatal("RsnDataSet","No dataset found !!!");
 }
 
-void RsnSetData(AliAnalysisAlien *plugin,TString dataset="",TString format="aod",Bool_t isTest=kFALSE) {
-   format.ToLower();
-   TString runs;
+void RsnSetData(AliAnalysisAlien *plugin,TString dsConf,Int_t maxRunsPerMaster = 1000) {
 
-   if (!format.CompareTo("esd")) {
-      plugin->SetGridDataDir("/alice/data/2010/LHC10b");
-      plugin->SetDataPattern("*ESDs/pass2/*ESDs.root"); // real data check reco pass and data base directory
-   } else if (!format.CompareTo("aod")) {
-      plugin->SetGridDataDir("/alice/data/2010/LHC10h");
-      plugin->SetDataPattern("*ESDs/pass2/AOD049/*AliAOD.root");
+   Bool_t dsFound = kTRUE;
+   Int_t nRunsPerMaster = 0;
+
+   if (dsConf.Contains(".txt")) {
+      ifstream in;
+      in.open(dsConf.Data());
+      TString line;
+      Bool_t isRun = kFALSE;
+      while (in.good())
+      {
+         in >> line;
+         if (line.IsNull()) continue;
+         if (line.Contains("BASE")) {
+            GetParameterFromConfig(line);
+            plugin->SetGridDataDir(line.Data());
+            Printf("BASE -> %s",line.Data());
+            continue;
+         }
+         if (line.Contains("PREFIX")) {
+            GetParameterFromConfig(line);
+            plugin->SetRunPrefix(line.Data());
+            Printf("PREFIX -> %s",line.Data());
+            continue;
+         }
+         if (line.Contains("DATA_PATTERN")) {
+            GetParameterFromConfig(line);
+            plugin->SetDataPattern(line.Data());
+            Printf("DATA_PATTERN -> %s",line.Data());
+            continue;
+         }
+         if (!line.CompareTo("RUNS")) {
+            isRun = kTRUE;
+            in >> line;
+         }
+         if (isRun) {
+//            Printf("Adding RUN : %s",line.Data());
+            plugin->AddRunNumber(line.Data());
+            nRunsPerMaster++;
+         }
+      }
    } else {
-      Printf("Error wrong data format!!! 'esd' or 'aod' are supported")
       plugin->SetGridDataDir("");
       plugin->SetDataPattern("");
-   }
-
-   plugin->SetRunPrefix("000");   // real data
-
-   runs  = "137124, 137125, 137132, 137133, 137135, 137136, 137137, 137161, 137162, 137163, 137165, 137230, 137231";
-   runs += ", 137232, 137235, 137236, 137243, 137365, 137366, 137370, 137430, 137431, 137432, 137434, 137439, 137440";
-   runs += ", 137441, 137443, 137530, 137531, 137546, 137638, 137639, 137685, 137689, 137693, 137718, 137724, 137843";
-   runs += ", 137847, 137848, 138150, 138154, 138190, 138438, 138469, 138533, 138582, 138637, 138652, 138730, 138731";
-   runs += ", 138732, 138742, 138826, 138828, 138830, 138870, 138871, 138872, 138977, 138980, 139028, 139029, 139030";
-   runs += ", 139031, 139034, 139036, 139105, 139308, 139309, 139310, 139311, 139316, 139360, 139438, 139439, 139440";
-   runs += ", 139470, 139503, 139504, 139505, 139510, 139511, 139513, 139514";
-
-   if (isTest) runs = "139110";
-
-   AddRuns(plugin,runs,1000);
-
-}
-
-void AddRuns(AliAnalysisAlien *plugin,TString runList="", Int_t maxRunsPerMaster = 1000) {
-
-   Int_t nRunsPerMaster = 0;
-   runList.ReplaceAll(" ","");
-   TObjArray *array = runList.Tokenize(",");
-   TObjString *str;
-   TString strr, strr2_1, strr2_2;
-   for (Int_t i = 0; i < array->GetEntriesFast(); i++) {
-
-      str = (TObjString *) array->At(i);
-      strr = str->GetString();
-      if (!strr.IsNull()) {
-         Printf("Adding RUN : %s",strr.Data());
-         plugin->AddRunNumber(strr);
-         nRunsPerMaster++;
-      }
+      Fatal("RsnDataSet","No dataset found !!!");
    }
 
    if (nRunsPerMaster > maxRunsPerMaster) nRunsPerMaster = maxRunsPerMaster;
    plugin->SetNrunsPerMaster(nRunsPerMaster);
+
+}
+
+void GetParameterFromConfig(TString &str,TString token="="){
+   TObjArray *array = str.Tokenize(token.Data());
+   TObjString *strObj = (TObjString *)array->At(1);
+   str = strObj->GetString();
 }

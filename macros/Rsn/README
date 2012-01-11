@@ -1,0 +1,1 @@
+sed -i 's/, /\n/g' LHC10b_p2.txt
