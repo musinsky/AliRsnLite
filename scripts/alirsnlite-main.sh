@@ -114,7 +114,7 @@ function InitWorkingDir() {
     MY_DIR=`readlink $ALIRSNLITE_WORKSRC/tasks/$MY_DIR_NAME`
     echo "MY_DIR : $MY_DIR"
     if [ -d $MY_DIR -o -h $MY_DIR ];then
-      cp -f $MY_DIR/* .
+      cp -fR $MY_DIR/* .
       if [ ! $? -eq 0 ];then
         echo ""
         echo "Error : Problem copying files from $MY_DIR to `pwd`"
