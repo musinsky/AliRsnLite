@@ -6,14 +6,14 @@ void RsnGridPlugin() {
    Int_t idRsnTrain=0;
 
    TString dsConfig;
-   dsConfig = "ds/LHC10h_p2_ESD.txt";
-   dsConfig = "ds/LHC10h_p2_AOD049.txt";
-   dsConfig = "ds/LHC10h_p2_AOD073.txt";
+   dsConfig = "datasets-grid/LHC10h_p2_ESD.txt";
+   dsConfig = "datasets-grid/LHC10h_p2_AOD049.txt";
+   dsConfig = "datasets-grid/LHC10h_p2_AOD073.txt";
 
-//   dsConfig = "ds/LHC11a10b_AOD080.txt";
+//   dsConfig = "datasets-grid/LHC11a10b_AOD080.txt";
 
-//   dsConfig = "ds/LHC10b_p2_ESD.txt";
-//   dsConfig = "ds/LHC10b_p2_AOD038.txt";
+//   dsConfig = "datasets-grid/LHC10b_p2_ESD.txt";
+//   dsConfig = "datasets-grid/LHC10b_p2_AOD038.txt";
 
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
    if (!mgr) { Printf("Error[RsnGridPlugin] mgr is null !!!"); return; }
