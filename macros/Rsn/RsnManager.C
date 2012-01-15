@@ -13,7 +13,7 @@ TList *RsnManager() {
    Int_t useRsnPar      = 0;
 
    TString legoTrainPath = "$ALICE_ROOT/PWG2/RESONANCES/macros/lego_train";
-   legoTrainPath = "$HOME/git/PWG2resonances/PWG2/RESONANCES/macros/lego_train";
+//    legoTrainPath = "$HOME/git/PWG2resonances/PWG2/RESONANCES/macros/lego_train";
 
 
    TList *listRsn = new TList();
