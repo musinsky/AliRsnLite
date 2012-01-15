@@ -103,7 +103,6 @@ Bool_t CreateInputHandlers(TString input,TString inputMC,Bool_t useAODOut=kFALSE
       } else if (!input.CompareTo("aod")) {
          mgr->SetInputEventHandler(new AliAODInputHandler());
       }
-      mgr->SetInputEventHandler(inputHandler);
    }
 
    if (useAODOut) {

@@ -1,5 +1,6 @@
 TList *RsnManager() {
 
+   Int_t isPP           = 1;
    Int_t useRsnMini     = 1;
 
    Int_t useMixing      = 1;
@@ -57,6 +58,8 @@ TList *RsnManager() {
    if (!mgr) { Printf("Error[RsnManager] mgr is null !!!"); return 0; }
 
    AliAnalysisManager::SetGlobalStr("rsnLegoTrainPath",legoTrainPath.Data());
+
+   AliAnalysisManager::SetGlobalInt("rsnIsPP",isPP);
 
    // use parfiles instead of libs
    AliAnalysisManager::SetGlobalInt("rsnUseEventMixingPar",useEventMixPar);

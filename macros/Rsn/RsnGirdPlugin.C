@@ -1,4 +1,19 @@
-void RsnGridPlugin(TString dsConfig = "LHC10h_p2_AOD073.txt",Int_t id=0) {
+#ifndef __CINT__
+#include <Riostream.h>
+#endif
+void RsnGridPlugin() {
+
+   Int_t idRsnTrain=0;
+
+   TString dsConfig;
+   dsConfig = "ds/LHC10h_p2_ESD.txt";
+   dsConfig = "ds/LHC10h_p2_AOD049.txt";
+   dsConfig = "ds/LHC10h_p2_AOD073.txt";
+
+//   dsConfig = "ds/LHC11a10b_AOD080.txt";
+
+//   dsConfig = "ds/LHC10b_p2_ESD.txt";
+//   dsConfig = "ds/LHC10b_p2_AOD038.txt";
 
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
    if (!mgr) { Printf("Error[RsnGridPlugin] mgr is null !!!"); return; }
@@ -6,8 +21,8 @@ void RsnGridPlugin(TString dsConfig = "LHC10h_p2_AOD073.txt",Int_t id=0) {
    AliAnalysisAlien *plugin = (AliAnalysisAlien *) mgr->GetGridHandler();
    if (!plugin) { Printf("Error[RsnGridPlugin] : plugin is null !!!"); return; }
 
-   TString rsnTrainName = dsConfig;
-   rsnTrainName.ReplaceAll(".txt",Form("/%03d",id));
+   TString rsnTrainName = gSystem->BaseName(dsConfig.Data());
+   rsnTrainName.ReplaceAll(".txt",Form("/%03d",idRsnTrain));
 
    plugin->SetGridWorkingDir(Form("RsnTrain/%s",rsnTrainName.Data()));
    plugin->SetGridOutputDir("output"); // In this case will be $HOME/work/output
@@ -15,7 +30,7 @@ void RsnGridPlugin(TString dsConfig = "LHC10h_p2_AOD073.txt",Int_t id=0) {
    plugin->SetAPIVersion("V1.1x");
    plugin->SetROOTVersion("v5-30-03-1");
 
-   TString alirootVersion="v5-02-15-AN";
+   TString alirootVersion="v5-02-16-AN";
    alirootVersion = gSystem->GetFromPipe("aliroot --version | awk '{print $3}'");
 
    plugin->SetAliROOTVersion(alirootVersion.Data());
@@ -33,11 +48,11 @@ void RsnGridPlugin(TString dsConfig = "LHC10h_p2_AOD073.txt",Int_t id=0) {
    plugin->SetMergeViaJDL();
    //    plugin->SetKeepLogs(kTRUE);
 
-   RsnSetData(plugin,dsConfig);
+   RsnSetData(plugin,dsConfig,1000);
 
    plugin->SetSplitMaxInputFileNumber(50);
 
-//   Fatal("RsnDataSet","No dataset found !!!");
+   //   Fatal("RsnDataSet","No dataset found !!!");
 }
 
 void RsnSetData(AliAnalysisAlien *plugin,TString dsConf,Int_t maxRunsPerMaster = 1000) {
@@ -45,9 +60,15 @@ void RsnSetData(AliAnalysisAlien *plugin,TString dsConf,Int_t maxRunsPerMaster =
    Bool_t dsFound = kTRUE;
    Int_t nRunsPerMaster = 0;
 
+   Bool_t valid = kTRUE;
+   TString legoTrainPath = AliAnalysisManager::GetGlobalStr("rsnLegoTrainPath",valid);
+   if (gSystem->AccessPathName(dsConf.Data())) dsConf.Prepend(Form("%s/",legoTrainPath.Data()));
+
    if (dsConf.Contains(".txt")) {
       ifstream in;
       in.open(dsConf.Data());
+      if (!in.is_open()) Fatal("RsnSetData",Form("File %s was not found !!!"));
+      Printf("DS config file : %s",dsConf.Data());
       TString line;
       Bool_t isRun = kFALSE;
       while (in.good())
@@ -77,7 +98,7 @@ void RsnSetData(AliAnalysisAlien *plugin,TString dsConf,Int_t maxRunsPerMaster =
             in >> line;
          }
          if (isRun) {
-//            Printf("Adding RUN : %s",line.Data());
+            //            Printf("Adding RUN : %s",line.Data());
             plugin->AddRunNumber(line.Data());
             nRunsPerMaster++;
          }
@@ -96,5 +117,6 @@ void RsnSetData(AliAnalysisAlien *plugin,TString dsConf,Int_t maxRunsPerMaster =
 void GetParameterFromConfig(TString &str,TString token="="){
    TObjArray *array = str.Tokenize(token.Data());
    TObjString *strObj = (TObjString *)array->At(1);
-   str = strObj->GetString();
+   if (strObj) str = strObj->GetString();
+   else str = "";
 }

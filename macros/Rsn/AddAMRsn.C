@@ -76,14 +76,7 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
    if (!RsnLoadMacro("AddMixingHandler.C")) return kFALSE;
    if (!analysisSource.CompareTo("grid")) {
       if (!RsnLoadMacro("RsnGirdPlugin.C")) return kFALSE;
-      TString dsConfig;
-      dsConfig = "LHC10h_p2_ESD.txt";
-      dsConfig = "LHC10h_p2_AOD049.txt";
-//      dsConfig = "LHC10h_p2_AOD073.txt";
-   //   dsConfig = "LHC10b_p2_ESD.txt";
-   //   dsConfig = "LHC10b_p2_AOD038.txt";
-      Int_t idRsnTrain=0;
-      RsnGridPlugin(dsConfig,idRsnTrain);
+      RsnGridPlugin();
    }
 
    if (splitMgrByTask) {

@@ -28,9 +28,9 @@ void MySetupAnalysisPluginProof(AliAnalysisAlien *plugin,TString analysisMode)
   if (!analysisMode.CompareTo("full")) plugin->SetProofParameter("PROOF_ForceLocal", "1");
   plugin->SetProofCluster("alice-caf.cern.ch");
 //   plugin->SetProofCluster("alice-caf.cern.ch:1099");
-//    plugin->SetProofCluster("skaf.saske.sk");
+    plugin->SetProofCluster("skaf.saske.sk");
 //    plugin->SetProofCluster("skaf.saske.sk:1099");
-      plugin->SetProofCluster("kiaf.sdfarm.kr");
+//      plugin->SetProofCluster("kiaf.sdfarm.kr");
 
   // May need to reset proof. Supported modes: 0-no reset, 1-soft, 2-hard
   plugin->SetProofReset(0);
