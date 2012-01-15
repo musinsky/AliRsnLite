@@ -6,7 +6,7 @@ TList *RsnManager() {
    Int_t useMixing      = 1;
    Int_t numMix         = 10;
 
-   Int_t fullOutput     = 1;
+   Int_t fullOutput     = 0;
    Int_t mcMomentum     = 0;
    
    Int_t useEventMixPar = 0;
@@ -30,13 +30,13 @@ TList *RsnManager() {
 //    listRsn->Add(new TNamed("Phi","Phi2010"));
    listRsn->Add(new TNamed("Phi","Phi2010:mon"));
 //    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_mon"));
-    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma1_mon"));
-    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma2_mon"));
-    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma3_mon"));
-    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_sigma1_mon"));
-    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_sigma2_mon"));
-    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_sigma3_mon"));
-    listRsn->Add(new TNamed("Phi","BPID:mon"));
+//     listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma1_mon"));
+//     listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma2_mon"));
+//     listRsn->Add(new TNamed("Phi","Phi2010:tpconly_sigma3_mon"));
+//     listRsn->Add(new TNamed("Phi","Phi2010:tofonly_sigma1_mon"));
+//     listRsn->Add(new TNamed("Phi","Phi2010:tofonly_sigma2_mon"));
+//     listRsn->Add(new TNamed("Phi","Phi2010:tofonly_sigma3_mon"));
+//     listRsn->Add(new TNamed("Phi","BPID:mon"));
 //
 //    // in case you have MC
 //    listRsn->Add(new TNamed("Phi","PDG:mon"));
