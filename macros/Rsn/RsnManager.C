@@ -13,7 +13,7 @@ TList *RsnManager() {
    Int_t useRsnPar      = 0;
 
    TString legoTrainPath = "$ALICE_ROOT/PWG2/RESONANCES/macros/lego_train";
-   //legoTrainPath = "$HOME/git/PWG2resonances/PWG2/RESONANCES/macros/lego_train";
+   legoTrainPath = "$HOME/git/PWG2resonances/PWG2/RESONANCES/macros/lego_train";
 
 
    TList *listRsn = new TList();
@@ -50,6 +50,22 @@ TList *RsnManager() {
 //    listRsn->Add(new TNamed("KStar","KStar:FastTPCpid2sigma_mon"));
 
    
+   //============= ONLY for GRID ====================
+   Int_t idRsnTrain=0;
+
+   TString dsConfig;
+   isPP = 0;
+   dsConfig = "datasets-grid/LHC10h_p2_ESD.txt";
+   dsConfig = "datasets-grid/LHC10h_p2_AOD049.txt";
+   dsConfig = "datasets-grid/LHC10h_p2_AOD073.txt";
+
+//   dsConfig = "datasets-grid/LHC11a10b_AOD080.txt";
+
+//   isPP = 1;
+//   dsConfig = "datasets-grid/LHC10b_p2_ESD.txt";
+//   dsConfig = "datasets-grid/LHC10b_p2_AOD038.txt";
+   //================================================
+
    ///////////////////////////////////////////
    // don't edit next lines (EXPERTS ONLY)
    ///////////////////////////////////////////
@@ -92,6 +108,10 @@ TList *RsnManager() {
 
    // expert options (don't change)
    AliAnalysisManager::SetGlobalInt("rsnMixPrintRefresh",-1);
+
+   // RSN train settings for GRID
+   AliAnalysisManager::SetGlobalInt("rsnTrainID",idRsnTrain);
+   AliAnalysisManager::SetGlobalStr("rsnTrainDSConfig",dsConfig.Data());
 
    return listRsn;
 }

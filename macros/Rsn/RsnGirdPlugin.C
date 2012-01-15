@@ -3,17 +3,9 @@
 #endif
 void RsnGridPlugin() {
 
-   Int_t idRsnTrain=0;
-
-   TString dsConfig;
-   dsConfig = "datasets-grid/LHC10h_p2_ESD.txt";
-   dsConfig = "datasets-grid/LHC10h_p2_AOD049.txt";
-   dsConfig = "datasets-grid/LHC10h_p2_AOD073.txt";
-
-//   dsConfig = "datasets-grid/LHC11a10b_AOD080.txt";
-
-//   dsConfig = "datasets-grid/LHC10b_p2_ESD.txt";
-//   dsConfig = "datasets-grid/LHC10b_p2_AOD038.txt";
+   Bool_t valid = kTRUE;
+   Int_t idRsnTrain = AliAnalysisManager::GetGlobalInt("rsnTrainID",valid);
+   TString dsConfig = AliAnalysisManager::GetGlobalStr("rsnTrainDSConfig",valid);
 
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
    if (!mgr) { Printf("Error[RsnGridPlugin] mgr is null !!!"); return; }
@@ -62,12 +54,14 @@ void RsnSetData(AliAnalysisAlien *plugin,TString dsConf,Int_t maxRunsPerMaster =
 
    Bool_t valid = kTRUE;
    TString legoTrainPath = AliAnalysisManager::GetGlobalStr("rsnLegoTrainPath",valid);
+
    if (gSystem->AccessPathName(dsConf.Data())) dsConf.Prepend(Form("%s/",legoTrainPath.Data()));
+   dsConf = gSystem->ExpandPathName(dsConf.Data());
 
    if (dsConf.Contains(".txt")) {
       ifstream in;
       in.open(dsConf.Data());
-      if (!in.is_open()) Fatal("RsnSetData",Form("File %s was not found !!!"));
+      if (!in.is_open()) Fatal("RsnSetData",Form("File %s was not found !!!",dsConf.Data()));
       Printf("DS config file : %s",dsConf.Data());
       TString line;
       Bool_t isRun = kFALSE;
