@@ -69,6 +69,9 @@ while [[ $1 = -* ]]; do
     --set)
       SetMacros $*
     ;;
+    --clear)
+      rm -Rf $ALIRSNLITE_TASKS_DIR/*
+    ;;
     *)
     ShowHelp
     ;;

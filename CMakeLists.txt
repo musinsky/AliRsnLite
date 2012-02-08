@@ -56,7 +56,7 @@ set(BINLIBDIRS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 #------------------------------------------------------------------------------#
 
 # AliRsnLite Standard Modules
-set(ALIROOTMODULES STEER ANALYSIS OADB CORRFW PWG2)
+set(ALIROOTMODULES STEER ANALYSIS OADB CORRFW PWGLF)
 
 # Set Final list of modules
 set(MODULES ${ALIROOTMODULES})
@@ -101,7 +101,7 @@ foreach(MODULE ${MODDIRS})
   add_subdirectory(${MODULE})
 endforeach(MODULE)
 
-add_dependencies(PWG2resonances-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers OADB-headers ANALYSISalice-headers CORRFW-headers")
+add_dependencies(PWGLFresonances-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers OADB-headers ANALYSISalice-headers CORRFW-headers")
 add_dependencies(CORRFW-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers OADB-headers ANALYSISalice-headers")
 add_dependencies(ANALYSISalice-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers OADB-headers")
 add_dependencies(OADB-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers")

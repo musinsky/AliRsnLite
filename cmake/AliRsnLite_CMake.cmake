@@ -13,7 +13,7 @@ macro(AliRsnLite_Sync)
     ANALYSIS/CMakelibANALYSISalice.pkg
     ANALYSIS/CMakelibEventMixing.pkg
     CORRFW/CMakelibCORRFW.pkg
-    PWG2/CMakelibPWG2resonances.pkg)
+    PWGLF/CMakelibPWGLFresonances.pkg)
 
   set(ALIRSNLITE_DIRS_RM STEER ANALYSIS)
 
@@ -62,7 +62,12 @@ macro(AliRsnLite_Sync)
             file(COPY ${ALIRSNLITE_SRC}/${srcdir}/${myfile} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir}/${myfiledir})
           endforeach(myfile ${HDRS})
           # take PROOF-INF
-          file(COPY ${ALIRSNLITE_SRC}/${srcdir}/PROOF-INF.${PAR} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir} PATTERN .svn EXCLUDE)
+
+          if(EXISTS ${ALIRSNLITE_SRC}/${srcdir}/PROOF-INF.${PAR})
+            file(COPY ${ALIRSNLITE_SRC}/${srcdir}/PROOF-INF.${PAR} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir} PATTERN .svn EXCLUDE)
+          else(EXISTS ${ALIRSNLITE_SRC}/${srcdir}/PROOF-INF.${PAR})
+            GeneratePROOF_INF(${CMAKE_SOURCE_DIR}/${srcdir}/PROOF-INF.${PAR} ${PAR})
+          endif(EXISTS ${ALIRSNLITE_SRC}/${srcdir}/PROOF-INF.${PAR})
           file(COPY ${ALIRSNLITE_SRC}/${srcdir}/${PAR}LinkDef.h DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
           if(EXISTS ${ALIRSNLITE_SRC}/${srcdir}/macros)
             if(EXISTS ${CMAKE_SOURCE_DIR}/${srcdir}/macros)
@@ -70,7 +75,7 @@ macro(AliRsnLite_Sync)
               file(COPY ${ALIRSNLITE_SRC}/${srcdir}/macros DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
             endif(EXISTS ${CMAKE_SOURCE_DIR}/${srcdir}/macros)
           endif(EXISTS ${ALIRSNLITE_SRC}/${srcdir}/macros)
-          file(COPY ${ALIRSNLITE_SRC}/${srcdir}/Makefile DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
+          file(COPY ${CMAKE_SOURCE_DIR}/cmake/scripts/Makefile DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
           execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/cmake/scripts/patch-${PAR}.sh ${PAR} ${CMAKE_SOURCE_DIR})
 
         else(EXISTS ${ALIRSNLITE_SRC}/${file})
@@ -111,3 +116,12 @@ macro(AliRsnLite_KDevelop)
   endif(ENABLE_KDEVELOP STREQUAL "YES")
 
 endmacro(AliRsnLite_KDevelop)
+
+function (GeneratePROOF_INF path parname)
+  if(parname)
+    message(STATUS "Generating ${parname} ${PARINCLUDE}")
+    file(MAKE_DIRECTORY ${path})
+    execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/cmake/scripts/generatePARbase.sh ${path} ${parname})
+#     execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/cmake/scripts/generateSETUP_C.sh ${path} ${parname} ${PARINCLUDE})
+  endif(parname)
+endfunction (GeneratePROOF_INF)
