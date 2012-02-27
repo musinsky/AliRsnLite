@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "set ( EXPORT \${HDRS})" >> $2/PWGLF/CMakelibPWGLFresonances.pkg
+echo "set ( EXPORT \${HDRS})" >> $3/PWGLF/CMakelibPWGLFresonances.pkg

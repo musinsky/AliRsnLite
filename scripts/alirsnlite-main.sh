@@ -219,6 +219,7 @@ while [[ $1 = -* ]]; do
       ALIRSNLITE_USE_ENV="1"
       export LD_LIBRARY_PATH="$ALIRSNLITE_SRC_DIR/lib/tgt_`root-config --arch`:$LD_LIBRARY_PATH"
       export PATH="$ALIRSNLITE_SRC_DIR/bin/tgt_`root-config --arch`:$PATH"
+      echo "$LD_LIBRARY_PATH"
     ;;
     --managers)
       ALIRSNLITE_MANAGERS="$1"

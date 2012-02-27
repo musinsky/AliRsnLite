@@ -1,6 +1,6 @@
 Bool_t AddAMEvilTask(TString analysisSource = "proof", TString analysisMode = "test",TString input="aod",TString inputMC="", TString postfix = "",TString idStr="0")
 {
-   Int_t usePhysSel              = 1;
+   Int_t usePhysSel              = 0;
    Bool_t useMC = !inputMC.CompareTo("mc");
 
    // ALICE stuff

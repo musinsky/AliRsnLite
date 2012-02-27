@@ -5,7 +5,7 @@ Bool_t RunALICE(TString anSrc = "grid",
                 Long64_t nEvents = 1e10,
                 Long64_t nSkip = 0,
                 TString dsName="",
-                TString alirsnliteManagers ="",
+                TString alirsnliteManagers ="AddAMRsn",
                 Bool_t useMultiHandler=kTRUE,
                 TString alirsnlitesrc ="$ALICE_ROOT",
                 TString alirsnlitetasks =""
@@ -14,6 +14,7 @@ Bool_t RunALICE(TString anSrc = "grid",
    // some init work
    anSrc.ToLower(); anMode.ToLower(); input.ToLower(); inputMC.ToLower();
 
+//   TGrid::Connect("alien://");
    // loads libs and setup include paths
    if (LoadLibsBase(alirsnlitesrc)) return kFALSE;
 

@@ -50,7 +50,6 @@ set(CMAKE_INCLUDE_EXPORT_DIRECTORY "${PROJECT_BINARY_DIR}/include")
 file(MAKE_DIRECTORY ${CMAKE_INCLUDE_EXPORT_DIRECTORY})
 set(EXPORTDIRS "${ROOTSYS}/include")
 set(BINLIBDIRS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
-
 #------------------------------------------------------------------------------#
 # AliRoot Modules                                                              #
 #------------------------------------------------------------------------------#

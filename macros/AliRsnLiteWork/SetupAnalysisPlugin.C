@@ -10,7 +10,7 @@ AliAnalysisGrid *SetupAnalysisPlugin(TString analysisMode)
 
   // seutp aliroot version
   TString alirootVersion = gSystem->GetFromPipe("aliroot --version | awk '{print $3}'");
-//   alirootVersion="v5-02-05-AN";
+//  alirootVersion="v5-02-18-AN";
   plugin->SetAliROOTVersion(alirootVersion.Data());
   // adds Proof setting
   MySetupAnalysisPluginProof(plugin,analysisMode);
@@ -42,8 +42,8 @@ void MySetupAnalysisPluginProof(AliAnalysisAlien *plugin,TString analysisMode)
 
 //    plugin->SetNproofWorkers(10);
 // May use a specific version of root installed in proof
-//     plugin->SetRootVersionForProof("VO_ALICE@ROOT::v5-28-00d");
-//     plugin->SetRootVersionForProof("current");
+//     plugin->SetRootVersionForProof("VO_ALICE@ROOT::v5-30-06");
+     plugin->SetRootVersionForProof("current");
 // May set the aliroot mode. Check http://aaf.cern.ch/node/83
   plugin->SetAliRootMode("default"); // Loads AF libs by default
 //     plugin->SetAliRootMode("ALIROOT"); // Loads AF libs by default

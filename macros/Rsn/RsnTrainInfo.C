@@ -6,9 +6,9 @@ void RsnTrainInfo(TString analysisMgrFile = "analysis.root") {
    AliAnalysisManager *mgr = 0;
    TIter next(l);
    TKey *key;
-   while ((key=(TKey*)next())) {
+   while ((key=(TKey *)next())) {
       if (!strcmp(key->GetClassName(), "AliAnalysisManager")) {
-         mgr = (AliAnalysisManager*)f->Get(key->GetName());
+         mgr = (AliAnalysisManager *)f->Get(key->GetName());
          Printf("");
          PrintManager(mgr);
       }
@@ -16,14 +16,14 @@ void RsnTrainInfo(TString analysisMgrFile = "analysis.root") {
    }
 
 
-   while ((mgr = (AliAnalysisManager*) next())) {
+   while ((mgr = (AliAnalysisManager *) next())) {
 
    }
    Printf("");
 }
 
 void PrintManager(TObject *mgrObj) {
-   AliAnalysisManager *mgr = (AliAnalysisManager*)mgrObj;
+   AliAnalysisManager *mgr = (AliAnalysisManager *)mgrObj;
    if (!mgr->InitAnalysis()) return;
    mgr->RunLocalInit();
    mgr->PrintStatus();
@@ -33,7 +33,7 @@ void PrintManager(TObject *mgrObj) {
    if (a) Printf("Tasks total : %d",a->GetEntries());
    TIter next(mgr->GetTasks());
    AliAnalysisTask *task;
-   while ((task = (AliAnalysisTask*) next())) {
+   while ((task = (AliAnalysisTask *) next())) {
       if (task->IsA() == AliRsnMiniAnalysisTask::Class()) {
          Printf("   Task [RSN-MINI] : %s '%s'",task->GetName(),task->GetTitle());
          AliRsnMiniAnalysisTask *rsnMiniTask = (AliRsnMiniAnalysisTask *)task;
@@ -44,10 +44,10 @@ void PrintManager(TObject *mgrObj) {
          rsnTask->Print();
          AliVEventHandler *ih = mgr->GetInputEventHandler();
          if (ih == AliMultiInputEventHandler::Class()) {
-            AliMultiInputEventHandler *ihMulti = (AliMultiInputEventHandler*) ih;
+            AliMultiInputEventHandler *ihMulti = (AliMultiInputEventHandler *) ih;
             TIter nextIH(ihMulti->InputEventHandlers());
             AliRsnInputHandler *rsnIH = 0;
-            while ((ih = (AliVEventHandler*) nextIH())) {
+            while ((ih = (AliVEventHandler *) nextIH())) {
                if (ih->IsA() == AliRsnInputHandler::Class()) {
                   rsnIH = ih;
                   AliRsnDaughterSelector *ds =  rsnIH->GetSelector();
