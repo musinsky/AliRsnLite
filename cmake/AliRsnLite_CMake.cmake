@@ -26,9 +26,11 @@ macro(AliRsnLite_Sync)
     message(STATUS "ALIRSNLITE_SRC is ${ALIRSNLITE_SRC}")
 
     # append AliRoot cmake dir
-    file(COPY ${ALIRSNLITE_SRC}/cmake/ DESTINATION ${CMAKE_SOURCE_DIR}/cmake/cmake_AliRoot/ PATTERN *.cmake)
-    file(COPY ${ALIRSNLITE_SRC}/cmake/ DESTINATION ${CMAKE_SOURCE_DIR}/cmake/cmake_AliRoot/ PATTERN *.tmp)
-    file(REMOVE_RECURSE ${CMAKE_SOURCE_DIR}/cmake/cmake_AliRoot/.svn)
+    if(NOT EXISTS ${CMAKE_SOURCE_DIR}/cmake/cmake_AliRoot/)
+      file(COPY ${ALIRSNLITE_SRC}/cmake/ DESTINATION ${CMAKE_SOURCE_DIR}/cmake/cmake_AliRoot/ PATTERN *.cmake)
+      file(COPY ${ALIRSNLITE_SRC}/cmake/ DESTINATION ${CMAKE_SOURCE_DIR}/cmake/cmake_AliRoot/ PATTERN *.tmp)
+      file(REMOVE_RECURSE ${CMAKE_SOURCE_DIR}/cmake/cmake_AliRoot/.svn)
+    endif(NOT EXISTS ${CMAKE_SOURCE_DIR}/cmake/cmake_AliRoot/)
 
     foreach(file ${ALIRSNLITE_PARS})
       get_filename_component(srcdir ${file} PATH)
