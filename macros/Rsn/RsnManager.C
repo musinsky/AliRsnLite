@@ -2,19 +2,19 @@
 TList *RsnManager() {
 
    Int_t isPP           = 1; // in GRID case it will be overwriten
-   Int_t useRsnMini     = 0;
+   Int_t useRsnMini     = 1;
 
    Int_t useMixing      = 0;
    Int_t numMix         = 10;
 
-   Int_t fullOutput     = 0;
+   Int_t fullOutput     = 1;
    Int_t mcMomentum     = 0;
    Int_t mcMon          = 0;
 
    Int_t useEventMixPar = 0;
    Int_t useRsnPar      = 0;
 
-   TString rootver = "v5-30-06-1";
+   TString rootver = "v5-32-01";
    TString alirootver = "";
    //   alirootver = "v5-02-17-AN";
 
@@ -35,47 +35,66 @@ TList *RsnManager() {
    TString commonCutOption="";
    commonCutOption="mon_eta";
 
-//    listRsn->Add(new TNamed("Phi","Phi2010"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:pdg"));
-// 
-// //    listRsn->Add(new TNamed("Phi","Phi2010:trackPtMax18"));
-// //    listRsn->Add(new TNamed("Phi","Phi2010:trackPtMax18_pdg"));
-// 
-//    listRsn->Add(new TNamed("Phi","Phi2010:usePP"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:usePP_pdg"));
-// 
-// //    listRsn->Add(new TNamed("Phi","Phi2010:usePP_trackPtMax18"));
-// //    listRsn->Add(new TNamed("Phi","Phi2010:usePP_trackPtMax18_pdg"));
-//    
+   listRsn->Add(new TNamed("Phi","Phi2010"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:trackPtMax18"));
+   listRsn->Add(new TNamed("Phi","Phi2010:usePP"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:usePP_trackPtMax18"));
+   listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma3"));
+   listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOFsigma3"));
    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly"));
-   listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pdg"));
-// 
-// //   listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma1"));
-// //   listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma2"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma3"));
+
+
+
+//    listRsn->Add(new TNamed("Phi","Phi2010:pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:usePP_pdg"));
+// //    listRsn->Add(new TNamed("Phi","Phi2010:trackPtMax18_pdg"));
+// //    listRsn->Add(new TNamed("Phi","Phi2010:usePP_trackPtMax18_pdg"));
 //    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma3_pdg"));
-// //   listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOFsigma1"));
-// //   listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOFsigma2"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOFsigma3"));
 //    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOFsigma3_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pdg"));
+// 
+//    listRsn->Add(new TNamed("Phi","PDG:NoTOFSIGMA"));
+
+
+
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID1"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID2"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID3"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID4"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID5"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID6"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID7"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID8"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID1_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID2_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID3_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID4_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID5_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID6_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID7_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID8_pdg"));
+   //
+
 // //    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOCsigma3_trackPtMax18"));
 // //    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOCsigma3_trackPtMax18_pdg"));
-// 
-// 
+//
+//
 // //   listRsn->Add(new TNamed("Phi","BPID"));
-// 
+//
 // //   listRsn->Add(new TNamed("Phi","Phi2010:tpcptMax05"));
 // //   listRsn->Add(new TNamed("Phi","Phi2010:tpcptMax06"));
 // //   listRsn->Add(new TNamed("Phi","Phi2010:tpcptMax07"));
 // //   listRsn->Add(new TNamed("Phi","Phi2010:tpcptMax08"));
 // //   listRsn->Add(new TNamed("Phi","Phi2010:TPCsigma1_tpcptMax06"));
 // //   listRsn->Add(new TNamed("Phi","Phi2010:TPCsigma1_tpcptMax08"));
-// 
+//
 //    //
 //    //    // in case you have MC
 // //    listRsn->Add(new TNamed("Phi","PDG"));
-// 
-   listRsn->Add(new TNamed("Phi","PDG:NoTOFSIGMA"));
+//
+//
 //    //
 //    //    listRsn->Add(new TNamed("KStar","KStar2010:mon"));
 //    //    listRsn->Add(new TNamed("KStar","BPID:mon"));
@@ -167,9 +186,7 @@ TList *RsnManager() {
    AliAnalysisManager::SetGlobalStr("rsnLegoTrainROOTversion",rootver.Data());
    AliAnalysisManager::SetGlobalStr("rsnLegoTrainAliROOTversion",alirootver.Data());
 
-
    AliAnalysisManager::SetGlobalStr("rsnLegoTrainCommonCutOption",commonCutOption.Data());
-
 
    return listRsn;
 }
