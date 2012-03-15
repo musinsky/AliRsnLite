@@ -1,66 +1,74 @@
+# $Id: Makefile 50266 2011-06-24 09:37:46Z pulvir $
 
-include Makefile.arch
+include $(ROOTSYS)/etc/Makefile.arch
 
-PACKAGE = ANALYSIS
+PACKAGE = PWGLFresonances
 
-default-target: lib$(PACKAGE).so
+default-target: lib$(PACKAGE).so 
 
-ALICEINC      = -I.
+ALICEINC      = -I. -I$(ALICE_ROOT)/TOF -I$(ALICE_ROOT)/ANALYSIS/EventMixing
 
-# add include paths from other par files
+### define include dir for local case and par case
 ifneq ($(ESD_INCLUDE),)
    ALICEINC += -I../$(ESD_INCLUDE)
-endif
-
-ifneq ($(AOD_INCLUDE),)
    ALICEINC += -I../$(AOD_INCLUDE)
-endif
-
-ifneq ($(STEERBase_INCLUDE),)
    ALICEINC += -I../$(STEERBase_INCLUDE)
-endif
-
-ifneq ($(ANALYSIS_INCLUDE),)
    ALICEINC += -I../$(ANALYSIS_INCLUDE)
-endif
-
-ifneq ($(OADB_INCLUDE),)
-   ALICEINC += -I../$(OADB_INCLUDE)
-endif
-
-ifneq ($(ANALYSISalice_INCLUDE),)
    ALICEINC += -I../$(ANALYSISalice_INCLUDE)
+ else
+    ifneq ($(ALICE_ROOT),)
+       ALICEINC += -I$(ALICE_ROOT)/include -I$(ALICE_ROOT)/PWG2
+     endif
+endif
+
+ifneq ($(CORRFW_INCLUDE),)
+  ALICEINC += -I../$(CORRFW_INCLUDE)
+endif
+
+ifneq ($(PWGLFresonances_INCLUDE),)
+  ALICEINC += -I../$(PWGLFresonances_INCLUDE)
+ else
+    ifneq ($(ALICE_ROOT),)
+       ALICEINC += -I$(ALICE_ROOT)/PWGLF/RESONANCES
+     endif
+endif
+
+ifneq ($(PWGLFresonancesdev_INCLUDE),)
+  ALICEINC += -I../$(PWGLFresonancesdev_INCLUDE)
+ else
+    ifneq ($(ALICE_ROOT),)
+       ALICEINC += -I$(ALICE_ROOT)/PWGLF/RESONANCES_DEV
+     endif
 endif
 
 # only if no par file was loaded before
 ifeq ($(ALICEINC),-I.)
   ifneq ($(ALICE_ROOT),)
-    ALICEINC += -I$(ALICE_ROOT)/include -I$(ALICE_ROOT)/ANALYSIS/Tender -I$(ALICE_ROOT)/TOF -I$(ALICE_ROOT)/TRD/Cal -I$(ALICE_ROOT)/VZERO -I$(ALICE_ROOT)/TPC -I$(ALICE_ROOT)/T0 -I$(ALICE_ROOT)/EMCAL
+    ALICEINC += -I$(ALICE_ROOT)/include
   endif
 endif
 
-CHECKXML      := $(shell root-config --has-xml)
-
-ifeq ($(CHECKXML),yes)
-  CXXFLAGS += -DWITHXML
-  CINTFLAGS += -DWITHXML
+ifneq ($(EINCLUDE),)
+  ALICEINC += $(EINCLUDE:%=-I$(ALICE_ROOT)/%)
 endif
 
-CXXFLAGS += $(ALICEINC) -g
+CXXFLAGS     += $(ALICEINC) -g
+F77FLAGS     += $(ALICEINC) -g -fPIC
 
-SRCS = 
-HDRS = 
 DHDR = 
+HDRS = 
+SRCS = 
+FSRCS = 
 
-DHDR_ANALYSIS := $(DHDR)
-HDRS_ANALYSIS := $(HDRS)
-SRCS_ANALYSIS := $(SRCS) G__$(PACKAGE).cxx
-OBJS_ANALYSIS := $(SRCS_ANALYSIS:.cxx=.o)
+DHDR_PWG2 := $(DHDR)
+HDRS_PWG2 := $(HDRS)
+SRCS_PWG2 := $(SRCS) G__$(PACKAGE).cxx
+FSCRS_PWG2 := $(FSRCS)
+OBJS_PWG2 := $(SRCS_PWG2:.cxx=.o) $(FSRCS:.F=.o)
 
 PARFILE       = $(PACKAGE).par
 
-
-lib$(PACKAGE).so: $(OBJS_ANALYSIS)
+lib$(PACKAGE).so: $(OBJS_PWG2)
 	@echo "Linking" $@ ...
 	@/bin/rm -f $@
 ifeq ($(PLATFORM),macosx)
@@ -89,18 +97,24 @@ endif
 	@echo "done"
 
 %.o:    %.cxx %.h
-	$(CXX) $(CXXFLAGS) $(PACKCXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-clean:
-	@rm -f $(OBJS_ANALYSIS) *.so G__$(PACKAGE).* $(PARFILE)
+%.o:    %.F
+	$(F77) $(F77FLAGS) -c $< -o $@
 
-G__$(PACKAGE).cxx G__$(PACKAGE).h: $(HDRS) $(DHDR)
+G__$(PACKAGE).h:G__$(PACKAGE).cxx
+	@if test -f $@ ; then : ; else rm -f $< ; $(MAKE) $@ ; fi
+
+G__$(PACKAGE).cxx: $(HDRS_PWG2) $(DHDR_PWG2)
 	@echo "Generating dictionary ..."
 	rootcint -f $@ -c $(CINTFLAGS) $(ALICEINC) $^
 
+clean:
+	@rm -f $(OBJS_PWG2) *.so G__$(PACKAGE).* $(PARFILE)
+
 ### CREATE PAR FILE
 
-$(PARFILE): $(patsubst %,$(PACKAGE)/%,$(filter-out G__%, $(HDRS_ANALYSIS) $(SRCS_ANALYSIS) $(DHDR_ANALYSIS) Makefile Makefile.arch PROOF-INF))
+$(PARFILE): $(patsubst %,$(PACKAGE)/%,$(filter-out G__%, $(HDRS_PWG2) $(SRCS_PWG2) $(DHDR_PWG2) Makefile Makefile.arch PROOF-INF))
 	@echo "Creating archive" $@ ...
 	@tar cfzh $@ $(PACKAGE)
 	@rm -rf $(PACKAGE)
