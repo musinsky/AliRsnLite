@@ -11,8 +11,10 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
 
    Int_t eventMixinPar = AliAnalysisManager::GetGlobalInt("rsnUseEventMixingPar",valid);
    Int_t rsnPar = AliAnalysisManager::GetGlobalInt("rsnUseRSNPar",valid);
+   Int_t rsnParDev = AliAnalysisManager::GetGlobalInt("rsnUseRSNParDev",valid);
    if (eventMixinPar) rsnPar = 1;
-
+   if (rsnPar) rsnParDev=1;
+   
    Int_t pidResponse = AliAnalysisManager::GetGlobalInt("rsnUsePIDResponse",valid);
    Int_t useRsnIH = AliAnalysisManager::GetGlobalInt("rsnUseRsnInputHandler",valid);
    Int_t physSel = AliAnalysisManager::GetGlobalInt("rsnUsePhysSel",valid);
@@ -41,6 +43,9 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
       if (rsnPar) { AliAnalysisAlien::SetupPar(rsnLibName.Data()); myAdditionalLibs += Form(" %s.par",rsnLibName.Data()); }
       else { gSystem->Load(Form("lib%s.so",rsnLibName.Data())); myAdditionalLibs += Form(" lib%s.so",rsnLibName.Data()); }
    }
+   
+   if (rsnParDev) { AliAnalysisAlien::SetupPar("PWGLFresonancesdev"); myAdditionalLibs += " PWGLFresonancesdev.par"; }
+   else { gSystem->Load("libPWGLFresonancesdev.so"); myAdditionalLibs += " libPWGLFresonancesdev.so"; }
 
    analysisPlugin->SetAdditionalLibs(myAdditionalLibs.Data());
 

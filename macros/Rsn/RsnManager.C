@@ -13,13 +13,14 @@ TList *RsnManager() {
 
    Int_t useEventMixPar = 0;
    Int_t useRsnPar      = 0;
+   Int_t useRsnParDev   = 0;
 
    TString rootver = "v5-32-01";
    TString alirootver = "";
-   //   alirootver = "v5-02-17-AN";
+//      alirootver = "v5-03-05-AN";
 
    TString legoTrainPath = "$ALICE_ROOT/PWGLF/RESONANCES/macros/lego_train";
-   legoTrainPath = "$HOME/git/AliRsn/PWGLF/RESONANCES/macros/lego_train";
+//    legoTrainPath = "$HOME/git/AliRsn/PWGLF/RESONANCES/macros/lego_train";
 
 
    TList *listRsn = new TList();
@@ -36,12 +37,12 @@ TList *RsnManager() {
    commonCutOption="mon_eta";
 
    listRsn->Add(new TNamed("Phi","Phi2010"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:trackPtMax18"));
-   listRsn->Add(new TNamed("Phi","Phi2010:usePP"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:usePP_trackPtMax18"));
-   listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma3"));
-   listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOFsigma3"));
-   listRsn->Add(new TNamed("Phi","Phi2010:qualityonly"));
+// //    listRsn->Add(new TNamed("Phi","Phi2010:trackPtMax18"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:usePP"));
+// //    listRsn->Add(new TNamed("Phi","Phi2010:usePP_trackPtMax18"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma3"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOFsigma3"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly"));
 
 
 
@@ -103,6 +104,8 @@ TList *RsnManager() {
 //    //    listRsn->Add(new TNamed("KStar","KStar:TPCTOFpidDefaultKstarPP2010_mon"));
 //    //    listRsn->Add(new TNamed("KStar","KStar:FastTPCpid1point5sigma_mon"));
 //    //    listRsn->Add(new TNamed("KStar","KStar:FastTPCpid2sigma_mon"));
+   
+//    listRsn->Add(new TNamed("Phi","PhiDev"));
 
 
    //============= ONLY for GRID ====================
@@ -148,7 +151,7 @@ TList *RsnManager() {
    // use parfiles instead of libs
    AliAnalysisManager::SetGlobalInt("rsnUseEventMixingPar",useEventMixPar);
    AliAnalysisManager::SetGlobalInt("rsnUseRSNPar",useRsnPar);
-
+   AliAnalysisManager::SetGlobalInt("rsnUseRSNParDev",useRsnParDev);
    // common options
    AliAnalysisManager::SetGlobalInt("rsnUsePhysSel",0);
    AliAnalysisManager::SetGlobalInt("rsnUsePIDResponse",1);
