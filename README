@@ -12,6 +12,13 @@ mkdir build
 cd build
 cmake -DALIRSNLITE_SYNC=YES -DPWG2resonances="/home/mvala/projects/PWG2resonances" -DEventMixing="/home/mvala/projects/EventMixing/" ../
 
+# NEW cmake instruction
+export USER_CMAKE_EXTRA_OPTIONS="-DPWGLFresonances=/home/mvala/git/AliRsn"
+mkdir build
+cd build
+<AliRsnLite-path>/scripts/alirsnlite-make.sh -j3
+
+
 # run on PROOF
 # $ <AliRsnLite-path>/scripts/alirsnlite-main.sh --root.exe --plugin proof:test --input aod --dataset <txt-file-with-list-of-local-files>
 
@@ -23,3 +30,5 @@ cmake -DALIRSNLITE_SYNC=YES -DPWG2resonances="/home/mvala/projects/PWG2resonance
 
 # run MERGING on GRID after some jobs are done
 # $ <AliRsnLite-path>/scripts/alirsnlite-main.sh --root.exe --plugin grid:terminate --input aod 
+
+

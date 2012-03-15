@@ -100,6 +100,10 @@ foreach(MODULE ${MODDIRS})
   add_subdirectory(${MODULE})
 endforeach(MODULE)
 
+if (PWGLFresonancesdev)
+  add_dependencies(PWGLFresonancesdev-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers OADB-headers ANALYSISalice-headers CORRFW-headers PWGLFresonances-headers")
+endif (PWGLFresonancesdev)
+
 add_dependencies(PWGLFresonances-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers OADB-headers ANALYSISalice-headers CORRFW-headers")
 add_dependencies(CORRFW-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers OADB-headers ANALYSISalice-headers")
 add_dependencies(ANALYSISalice-headers "STEERBase-headers ESD-headers AOD-headers ANALYSIS-headers OADB-headers")

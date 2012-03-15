@@ -14,6 +14,11 @@ macro(AliRsnLite_Sync)
     ANALYSIS/CMakelibEventMixing.pkg
     CORRFW/CMakelibCORRFW.pkg
     PWGLF/CMakelibPWGLFresonances.pkg)
+  
+  if (PWGLFresonancesdev)
+    set(ALIRSNLITE_PARS ${ALIRSNLITE_PARS}
+      PWGLF/CMakelibPWGLFresonancesdev.pkg)
+  endif (PWGLFresonancesdev)
 
   set(ALIRSNLITE_DIRS_RM STEER ANALYSIS)
 
