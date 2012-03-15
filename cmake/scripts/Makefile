@@ -2,43 +2,51 @@
 
 include $(ROOTSYS)/etc/Makefile.arch
 
-PACKAGE = PWGLFresonances
+PACKAGE = PWGLFresonancesdev
 
 default-target: lib$(PACKAGE).so 
 
-ALICEINC      = -I. -I$(ALICE_ROOT)/TOF -I$(ALICE_ROOT)/ANALYSIS/EventMixing
+ALICEINC      = -I.
+
+ifeq ($(PACKAGE),PWGLFresonances)
+  ALICEINC      += -IRESONANCES
+endif
+
+ifeq ($(PACKAGE),PWGLFresonancesdev)
+  ALICEINC      += -IRESONANCES_DEV
+endif
 
 ### define include dir for local case and par case
-ifneq ($(ESD_INCLUDE),)
+ifneq ($(STEERBase_INCLUDE),)
+   ALICEINC += -I../$(STEERBase_INCLUDE)
    ALICEINC += -I../$(ESD_INCLUDE)
    ALICEINC += -I../$(AOD_INCLUDE)
-   ALICEINC += -I../$(STEERBase_INCLUDE)
    ALICEINC += -I../$(ANALYSIS_INCLUDE)
    ALICEINC += -I../$(ANALYSISalice_INCLUDE)
- else
-    ifneq ($(ALICE_ROOT),)
-       ALICEINC += -I$(ALICE_ROOT)/include -I$(ALICE_ROOT)/PWG2
-     endif
+else
+   ifneq ($(ALICE_ROOT),)
+      ALICEINC += -I$(ALICE_ROOT)/include
+   endif
 endif
 
 ifneq ($(CORRFW_INCLUDE),)
-  ALICEINC += -I../$(CORRFW_INCLUDE)
+   ALICEINC += -I../$(CORRFW_INCLUDE)
 endif
 
 ifneq ($(PWGLFresonances_INCLUDE),)
-  ALICEINC += -I../$(PWGLFresonances_INCLUDE)
- else
-    ifneq ($(ALICE_ROOT),)
-       ALICEINC += -I$(ALICE_ROOT)/PWGLF/RESONANCES
-     endif
+   ALICEINC += -I../$(PWGLFresonances_INCLUDE)
+else
+   ifneq ($(ALICE_ROOT),)
+      ALICEINC += -I$(ALICE_ROOT)/PWGLF -I$(ALICE_ROOT)/PWGLF/RESONANCES
+   endif
 endif
 
 ifneq ($(PWGLFresonancesdev_INCLUDE),)
-  ALICEINC += -I../$(PWGLFresonancesdev_INCLUDE)
- else
-    ifneq ($(ALICE_ROOT),)
-       ALICEINC += -I$(ALICE_ROOT)/PWGLF/RESONANCES_DEV
-     endif
+   ALICEINC += -I../$(PWGLFresonancesdev_INCLUDE)
+else
+   ifneq ($(ALICE_ROOT),)
+      ALICEINC += -I$(ALICE_ROOT)/PWGLF -I$(ALICE_ROOT)/PWGLF/RESONANCES_DEV
+   endif
 endif
 
 # only if no par file was loaded before
