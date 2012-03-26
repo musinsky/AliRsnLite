@@ -1,8 +1,10 @@
+#ifndef __CINT__
 #include <TList.h>
+#endif
 TList *RsnManager() {
 
    Int_t isPP           = 1; // in GRID case it will be overwriten
-   Int_t useRsnMini     = 1;
+   Int_t useRsnMini     = 0;
 
    Int_t useMixing      = 0;
    Int_t numMix         = 10;
@@ -13,14 +15,14 @@ TList *RsnManager() {
 
    Int_t useEventMixPar = 0;
    Int_t useRsnPar      = 0;
-   Int_t useRsnParDev   = 0;
+   Int_t useRsnParDev   = -1;
 
    TString rootver = "v5-32-01";
    TString alirootver = "";
 //      alirootver = "v5-03-05-AN";
 
    TString legoTrainPath = "$ALICE_ROOT/PWGLF/RESONANCES/macros/lego_train";
-//    legoTrainPath = "$HOME/git/AliRsn/PWGLF/RESONANCES/macros/lego_train";
+   legoTrainPath = "$HOME/git/AliRsn/PWGLF/RESONANCES/macros/lego_train";
 
 
    TList *listRsn = new TList();
@@ -34,7 +36,8 @@ TList *RsnManager() {
    //    listRsn->Add(new TNamed("<Name>:mon","<CutName>:<opt>"));
 
    TString commonCutOption="";
-   commonCutOption="mon_eta";
+   commonCutOption = "mon";
+//    commonCutOption += "_eta";
 
    listRsn->Add(new TNamed("Phi","Phi2010"));
 // //    listRsn->Add(new TNamed("Phi","Phi2010:trackPtMax18"));
@@ -45,6 +48,12 @@ TList *RsnManager() {
 //    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly"));
 
 
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma1"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma1.5"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma2"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma2.5"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma3"));
+
 
 //    listRsn->Add(new TNamed("Phi","Phi2010:pdg"));
 //    listRsn->Add(new TNamed("Phi","Phi2010:usePP_pdg"));
@@ -53,30 +62,14 @@ TList *RsnManager() {
 //    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma3_pdg"));
 //    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOFsigma3_pdg"));
 //    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pdg"));
-// 
+//
 //    listRsn->Add(new TNamed("Phi","PDG:NoTOFSIGMA"));
 
-
-
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID1"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID2"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID3"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID4"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID5"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID6"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID7"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID8"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID1_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID2_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID3_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID4_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID5_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID6_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID7_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pairPID8_pdg"));
-   //
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma1_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma1.5_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma2_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma2.5_pdg"));
+//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma3_pdg"));
 
 // //    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOCsigma3_trackPtMax18"));
 // //    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOCsigma3_trackPtMax18_pdg"));
@@ -95,6 +88,13 @@ TList *RsnManager() {
 //    //    // in case you have MC
 // //    listRsn->Add(new TNamed("Phi","PDG"));
 //
+
+//    listRsn->Add(new TNamed("Rho","Rho"));
+//    listRsn->Add(new TNamed("Rho","Rho:tpconly_TPCsigma1"));
+
+//    listRsn->Add(new TNamed("Lambda","Lambda"));
+//    listRsn->Add(new TNamed("Lambda","Lambda:TPCPsigma2_TPCKsigma1"));
+
 //
 //    //
 //    //    listRsn->Add(new TNamed("KStar","KStar2010:mon"));
@@ -104,7 +104,7 @@ TList *RsnManager() {
 //    //    listRsn->Add(new TNamed("KStar","KStar:TPCTOFpidDefaultKstarPP2010_mon"));
 //    //    listRsn->Add(new TNamed("KStar","KStar:FastTPCpid1point5sigma_mon"));
 //    //    listRsn->Add(new TNamed("KStar","KStar:FastTPCpid2sigma_mon"));
-   
+
 //    listRsn->Add(new TNamed("Phi","PhiDev"));
 
 
