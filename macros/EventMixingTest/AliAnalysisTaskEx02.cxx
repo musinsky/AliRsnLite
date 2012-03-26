@@ -110,8 +110,6 @@ void AliAnalysisTaskEx02::UserCreateOutputObjects()
    fHistZVertexDiff->GetXaxis()->SetTitle("ZVertexDiff");
    fHistZVertexDiff->GetYaxis()->SetTitle("counts");
 
-
-
    // NEW HISTO should be defined here, with a sensible name,
 
    fOutput->Add(fHistPt);
@@ -167,6 +165,7 @@ void AliAnalysisTaskEx02::UserExecMix(Option_t *)
       if (esdEvent) {
          AliESDEvent *esdEventMix = dynamic_cast<AliESDEvent *>(ihMixedCurrent->GetEvent());
          AliDebug(AliLog::kDebug, Form("Multi=%d MultiMix=%d", esdEvent->GetNumberOfTracks(), esdEventMix->GetNumberOfTracks()));
+//          AliDebug(AliLog::kDebug, Form("Mask=%lld MaskMix=%lld", esdEvent->GetTriggerMask(), esdEvent->GetTriggerMask()));
          fHistMultiDiff->Fill(TMath::Abs(esdEvent->GetNumberOfTracks() - esdEventMix->GetNumberOfTracks()));
 
       } else {
@@ -174,6 +173,7 @@ void AliAnalysisTaskEx02::UserExecMix(Option_t *)
          if (aodEvent) {
             AliAODEvent *aodEventMix = dynamic_cast<AliAODEvent *>(ihMixedCurrent->GetEvent());
             AliDebug(AliLog::kDebug, Form("Multi=%d MultiMix=%d", aodEvent->GetNumberOfTracks(), aodEventMix->GetNumberOfTracks()));
+//             AliDebug(AliLog::kDebug, Form("Mask=%lld MaskMix=%lld", aodEvent->GetTriggerMask(), aodEventMix->GetTriggerMask()));
             fHistMultiDiff->Fill(TMath::Abs(aodEvent->GetNumberOfTracks() - aodEventMix->GetNumberOfTracks()));
 
             AliAODVertex *aodVertex = aodEvent->GetPrimaryVertex();

@@ -1,3 +1,5 @@
+#ifndef __CINT__
+#endif
 AliAnalysisTask *AddEventMixingTestTask(TString format = "esd", Bool_t useMC = kFALSE,TString postfix="")
 {
    // create manager
