@@ -26,6 +26,8 @@ function CreateDir() {
 
 function ShowHelp() {
   echo "./alirsnlite-config --list"
+  echo "./alirsnlite-config --clear"
+  echo "./alirsnlite-config --set <TASK>"
 }
 
 function ListMacros() {
