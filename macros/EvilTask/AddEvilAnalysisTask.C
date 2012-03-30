@@ -25,7 +25,7 @@ AliAnalysisTask *AddEvilAnalysisTask(TString format = "esd", Bool_t useMC = kFAL
 //   task->SetNumMemoryLeak(1);
 
    // Set bad host (it will crash on that machine)
-  task->SetBadHost("prf005-iep-grid.saske.sk",0);
+//   task->SetBadHost("prf005-iep-grid.saske.sk",0);
 
 //   task->SetNumLoopsInOneEvent(10);
 
