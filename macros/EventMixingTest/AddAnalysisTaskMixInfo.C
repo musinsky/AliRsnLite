@@ -11,7 +11,7 @@ void AddAnalysisTaskMixInfo(TString opts = "")
    Int_t debugLevel = 1;
    TString myclasses = "";
 //    myclasses += ":AliAnalysisTaskMixInfo";
-   myclasses += ":AddEventMixingTestTask";
+//    myclasses += ":AliAnalysisTaskEx02";
 
    if (!myclasses.IsNull()) task->SetLogType(AliLog::kDebug + debugLevel, myclasses);
 

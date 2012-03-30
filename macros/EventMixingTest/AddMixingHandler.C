@@ -4,7 +4,7 @@
 void AddMixingHandler ( AliMultiInputEventHandler *multiInputHandler,TString format = "esd", Bool_t useMC = kFALSE, TString opts = "" ) {
 
    const Int_t bufferSize = 1;
-   const Int_t mixNum = 2;
+   const Int_t mixNum = 5;
    if ( !multiInputHandler ) return;
 
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
@@ -32,8 +32,8 @@ void AddMixingHandler ( AliMultiInputEventHandler *multiInputHandler,TString for
    // adds event pool (comment it and u will have default mixing)
    mixHandler->SetEventPool ( evPool );
 
-//    mixHandler->SelectCollisionCandidates(AliVEvent::kAny);
-   mixHandler->SelectCollisionCandidates(AliVEvent::kAnyINT);
+   mixHandler->SelectCollisionCandidates(AliVEvent::kAny);
+//    mixHandler->SelectCollisionCandidates(AliVEvent::kAnyINT);
 
 
 //    mixHandler->DoMixIfNotEnoughEvents(kFALSE);
@@ -42,6 +42,6 @@ void AddMixingHandler ( AliMultiInputEventHandler *multiInputHandler,TString for
 
    // adds mixing info task
    gROOT->LoadMacro ( "AddAnalysisTaskMixInfo.C" );
-   AddAnalysisTaskMixInfo (opts );
+   AddAnalysisTaskMixInfo (opts);
 
 }
