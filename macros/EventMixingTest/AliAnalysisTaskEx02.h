@@ -32,18 +32,32 @@ public:
    virtual void     UserExecMix(Option_t *);
    virtual void     Terminate(Option_t *);
 
+   // function to loop over ESD event
    void Loop(AliESDEvent *esd);
+   void LoopV0(AliESDEvent *esd);
    void LoopESDMC();
+
+   // function to loop over AOD event
    void Loop(AliAODEvent *aod);
+   void LoopV0(AliAODEvent *aod);
    void LoopAODMC();
 
-private:
-   TList           *fOutput;        // Output list
-   TH1F            *fHistPt;        // Pt spectrum
-   TH1F            *fHistEta;       // pseudorapidity spectrum
+   void SetLoopInUserExecMix(Bool_t useMix=kTRUE) { fUseLoopInUserExecMix = useMix;}
+   void SetUseLoopMixedEvent(Bool_t useMixEvent=kTRUE) { fUseLoopMixedEvent = useMixEvent;}
+   void SetLoopV0(Bool_t useV0=kTRUE) { fUseLoopV0 = useV0;}
 
-   TH1F            *fHistMultiDiff; // multiplicity difference
-   TH1F            *fHistZVertexDiff; // multiplicity difference
+private:
+   TList           *fOutput;               // Output list
+   TH1F            *fHistPt;               // Pt spectrum
+   TH1F            *fHistEta;              // pseudorapidity spectrum
+
+   TH1F            *fHistMultiDiff;        // multiplicity difference
+   TH1F            *fHistZVertexDiff;      // Vz difference
+
+   // Following options are only for testing purposes (user can ignore)
+   Bool_t           fUseLoopInUserExecMix; //
+   Bool_t           fUseLoopMixedEvent; //
+   Bool_t           fUseLoopV0; //
 
    AliAnalysisTaskEx02(const AliAnalysisTaskEx02 &); // not implemented
    AliAnalysisTaskEx02 &operator=(const AliAnalysisTaskEx02 &); // not implemented
@@ -52,4 +66,3 @@ private:
 };
 
 #endif
-

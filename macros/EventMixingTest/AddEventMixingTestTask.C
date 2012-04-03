@@ -1,5 +1,7 @@
 #ifndef __CINT__
+#include <ANALYSIS/macros/EventMixingTest/AliAnalysisTaskEx02.h>
 #endif
+
 AliAnalysisTask *AddEventMixingTestTask(TString format = "esd", Bool_t useMC = kFALSE,TString postfix="")
 {
    // create manager
@@ -19,7 +21,11 @@ AliAnalysisTask *AddEventMixingTestTask(TString format = "esd", Bool_t useMC = k
    mgr->ConnectInput(task, 0,  mgr->GetCommonInputContainer());
    mgr->ConnectOutput(task, 1, output1);
 
-
+   // Option for test (only experts)
+//    task->SetLoopInUserExecMix(kTRUE);
+//    task->SetUseLoopMixedEvent(kTRUE);
+//    task->SetLoopV0(kTRUE);
+   
    return task;
 }
 

@@ -32,7 +32,10 @@
 #include "AliLog.h"
 #include "AliAnalysisManager.h"
 #include "AliESDEvent.h"
+#include "AliESDtrack.h"
+#include "AliESDv0.h"
 #include "AliAODTrack.h"
+#include "AliAODv0.h"
 #include "AliAODEvent.h"
 
 #include "AliAnalysisTaskEx02.h"
@@ -48,7 +51,10 @@ AliAnalysisTaskEx02::AliAnalysisTaskEx02() // All data members should be initial
      fHistPt(0),
      fHistEta(0),
      fHistMultiDiff(0),
-     fHistZVertexDiff(0) // The last in the above list should not have a comma after it
+     fHistZVertexDiff(0),
+     fUseLoopInUserExecMix(kFALSE),
+     fUseLoopMixedEvent(kFALSE),
+     fUseLoopV0(kFALSE) // The last in the above list should not have a comma after it
 {
    // Dummy constructor ALWAYS needed for I/O.
 }
@@ -60,7 +66,10 @@ AliAnalysisTaskEx02::AliAnalysisTaskEx02(const char *name) // All data members s
      fHistPt(0),
      fHistEta(0),
      fHistMultiDiff(0),
-     fHistZVertexDiff(0) // The last in the above list should not have a comma after it
+     fHistZVertexDiff(0),
+     fUseLoopInUserExecMix(kFALSE),
+     fUseLoopMixedEvent(kFALSE),
+     fUseLoopV0(kFALSE)// The last in the above list should not have a comma after it
 {
    // Constructor
    // Define input and output slots here (never in the dummy constructor)
@@ -134,18 +143,34 @@ void AliAnalysisTaskEx02::UserExec(Option_t *)
 
       AliESDEvent *esd = dynamic_cast<AliESDEvent *>(inEvMain->GetEvent());
       if (esd) {
-         Loop(esd);
+         if (!fUseLoopInUserExecMix) {
+            if (fUseLoopV0)
+               LoopV0(esd);
+            else
+               Loop(esd);
+         }
       } else {
          AliAODEvent *aod = dynamic_cast<AliAODEvent *>(inEvMain->GetEvent());
-         if (aod) Loop(aod);
+         if (aod) {
+            if (!fUseLoopInUserExecMix) {
+               if (fUseLoopV0)
+                  LoopV0(aod);
+               else
+                  Loop(aod);
+            }
+         }
       }
    }
 
    PostData(1, fOutput);
 }
 
+//________________________________________________________________________
 void AliAnalysisTaskEx02::UserExecMix(Option_t *)
 {
+   //
+   // Running mixing function
+   //
 
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
    AliMultiInputEventHandler *inEvHMain = dynamic_cast<AliMultiInputEventHandler *>(mgr->GetInputEventHandler());
@@ -168,6 +193,17 @@ void AliAnalysisTaskEx02::UserExecMix(Option_t *)
 //          AliDebug(AliLog::kDebug, Form("Mask=%lld MaskMix=%lld", esdEvent->GetTriggerMask(), esdEvent->GetTriggerMask()));
          fHistMultiDiff->Fill(TMath::Abs(esdEvent->GetNumberOfTracks() - esdEventMix->GetNumberOfTracks()));
 
+         // For tesing purpose only (no physics)
+         if (fUseLoopInUserExecMix) {
+            if (fUseLoopV0) {
+               if (fUseLoopMixedEvent) LoopV0(esdEventMix);
+               else LoopV0(esdEvent);
+            }
+            else {
+               if (fUseLoopMixedEvent) Loop(esdEventMix);
+               else Loop(esdEvent);
+            }
+         }
       } else {
          AliAODEvent *aodEvent = dynamic_cast<AliAODEvent *>(ihMainCurrent->GetEvent());
          if (aodEvent) {
@@ -176,6 +212,17 @@ void AliAnalysisTaskEx02::UserExecMix(Option_t *)
 //             AliDebug(AliLog::kDebug, Form("Mask=%lld MaskMix=%lld", aodEvent->GetTriggerMask(), aodEventMix->GetTriggerMask()));
             fHistMultiDiff->Fill(TMath::Abs(aodEvent->GetNumberOfTracks() - aodEventMix->GetNumberOfTracks()));
 
+            // For tesing purpose only (no physics)
+            if (fUseLoopInUserExecMix) {
+               if (fUseLoopV0) {
+                  if (fUseLoopMixedEvent) LoopV0(aodEventMix);
+                  else LoopV0(aodEvent);
+               }
+               else {
+                  if (fUseLoopMixedEvent) Loop(aodEventMix);
+                  else Loop(aodEvent);
+               }
+            }
             AliAODVertex *aodVertex = aodEvent->GetPrimaryVertex();
             AliAODVertex *aodVertexMix = aodEventMix->GetPrimaryVertex();
             if ( aodVertex && aodVertexMix) {
@@ -231,6 +278,7 @@ void AliAnalysisTaskEx02::Terminate(Option_t *)
 
 }
 
+//________________________________________________________________________
 void AliAnalysisTaskEx02::Loop(AliESDEvent *esd)
 {
    // Track loop for reconstructed event
@@ -245,13 +293,46 @@ void AliAnalysisTaskEx02::Loop(AliESDEvent *esd)
       fHistEta->Fill(esdtrack->Eta());
    }
 }
-void AliAnalysisTaskEx02::LoopESDMC()
+
+//________________________________________________________________________
+void AliAnalysisTaskEx02::LoopV0(AliESDEvent *esd)
 {
-   // TODO
+   //
+   // V0 loop for reconstructed event (ESD)
+   //
+
+   Int_t nv0 = esd->GetNumberOfV0s();
+   Int_t lIndexTrackPos;
+   AliESDtrack *myTrackPosTest;
+   for (Int_t i = 0; i < nv0; i++)
+   {
+      AliESDv0 *esdv0 = esd->GetV0(i);
+      if (!esdv0) {
+         AliError(Form("ERROR: Could not retrieve esdv0 %d", i));
+         continue;
+      }
+      lIndexTrackPos = TMath::Abs(esdv0->GetPindex());
+      myTrackPosTest = esd->GetTrack(lIndexTrackPos);
+      fHistPt->Fill(myTrackPosTest->Pt());
+      fHistEta->Fill(myTrackPosTest->Eta());
+   }
+
 }
 
+//________________________________________________________________________
+void AliAnalysisTaskEx02::LoopESDMC()
+{
+   //
+   // TODO
+   //
+}
+
+//________________________________________________________________________
 void AliAnalysisTaskEx02::Loop(AliAODEvent *aod)
 {
+   //
+   // Loops over AOD event
+   //
 
    // Track loop for reconstructed event
    Int_t ntracks = aod->GetNumberOfTracks();
@@ -266,7 +347,36 @@ void AliAnalysisTaskEx02::Loop(AliAODEvent *aod)
       fHistEta->Fill(aodTrack->Eta());
    }
 }
+
+
+
+//________________________________________________________________________
+void AliAnalysisTaskEx02::LoopV0(AliAODEvent *aod)
+{
+   //
+   // V0 loop for reconstructed event (AOD)
+   //
+
+   Int_t nv0 = aod->GetNumberOfV0s();
+   AliAODTrack *postrackmix;
+   for (Int_t i = 0; i < nv0; i++)
+   {
+      AliAODv0 *aodv0 = dynamic_cast<AliAODv0 *>(aod->GetV0(i));
+      if (!aodv0) {
+         AliError(Form("ERROR: Could not retrieve aodv0 %d", i));
+         continue;
+      }
+      postrackmix = (AliAODTrack *)aodv0->GetDaughter(0);
+      fHistPt->Fill(postrackmix->Pt());
+      fHistEta->Fill(postrackmix->Eta());
+   }
+
+}
+
+//________________________________________________________________________
 void AliAnalysisTaskEx02::LoopAODMC()
 {
+   //
    // TODO
+   //
 }
