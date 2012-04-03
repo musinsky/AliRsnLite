@@ -229,7 +229,7 @@ while [[ $1 = -* ]]; do
       ALIRSNLITE_DATASETS="$1"
       shift
     ;;
-    --multi)
+    --multi-handler)
       ALIRSNLITE_MULTI_INPUT_HANDLER="$1"
       shift
     ;;
