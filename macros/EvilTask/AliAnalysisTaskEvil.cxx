@@ -133,6 +133,9 @@ void AliAnalysisTaskEvil::UserExec(Option_t *) {
    // Main loop
    // Called for each event
 //    AliInfo("<-");
+
+
+
 //    PrintProcInfo();
    AliVEvent *event = InputEvent();
    if (!event) {
@@ -140,6 +143,10 @@ void AliAnalysisTaskEvil::UserExec(Option_t *) {
       return;
    }
    fMyESDEvent = dynamic_cast<AliESDEvent *>(InputEvent());
+
+//    AliCentrality *c = fMyESDEvent->GetCentrality();
+//    Printf("Centrality is %f",c->GetCentralityPercentile("V0M"));
+
    for (Int_t i = 0; i < fNumLoopsInOneEvent; i++) {
 //       AliInfo(Form("%d", i));
       if (fMyESDEvent) {
