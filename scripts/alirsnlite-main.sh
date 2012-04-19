@@ -130,6 +130,9 @@ function InitWorkingDir() {
     cp -f $ALIRSNLITE_SRC_DIR/pars/*.par . || exit 1
   }
 
+  # remove backup files
+  rm -f *~
+
 }
 
 function Run() {
@@ -152,10 +155,24 @@ function Run() {
   test "$ALIRSNLITE_USE_ENV" = "1" && AN_PATH="$ALIRSNLITE_SRC_DIR" 
 
   MACRO="RunALICE.C(\"$AN_SRC\",\"$AN_MODE\",\"$AN_INPUT\",\"$AN_INPUT_MC\""
-  MACRO="$MACRO,$AN_EVENTS,$AN_EVENTS_SKIP,\"$ALIRSNLITE_DATASETS\",\"$ALIRSNLITE_MANAGERS\""
+  MACRO="$MACRO,$AN_EVENTS,$AN_EVENTS_SKIP,\"$ALIRSNLITE_DATASETS\""
+
+  # tmp $MACRO_LITE for creation of running sctipt
+  if [ -z "$ALIRSNLITE_MANAGERS" ];then
+     MY_ALIRSNLITE_MANAGERS="`ls $ALIRSNLITE_TASKS_DIR`"
+  else
+     MY_ALIRSNLITE_MANAGERS="$ALIRSNLITE_MANAGERS"
+  fi
+  MACRO_LITE="$MACRO,\"$MY_ALIRSNLITE_MANAGERS\",$ALIRSNLITE_MULTI_INPUT_HANDLER,\"\$ALICE_ROOT\",\"\")"
+
+  # added adtions 
+  MACRO="$MACRO,\"$ALIRSNLITE_MANAGERS\""
   MACRO="$MACRO,$ALIRSNLITE_MULTI_INPUT_HANDLER,\"$AN_PATH\",\"$ALIRSNLITE_TASKS_DIR\")"
   
   echo "Running $PRE_CMD $CMD$ARGS$MACRO $POST_CMD ..."
+  echo "#!/bin/bash" > alirsnlite-cmd.sh
+  echo "$PRE_CMD $CMD$ARGS'$MACRO_LITE' $POST_CMD" >> alirsnlite-cmd.sh
+  chmod +x alirsnlite-cmd.sh
   $PRE_CMD $CMD$ARGS$MACRO $POST_CMD
 }
 
