@@ -7,9 +7,9 @@ fi
 CMD="nice -n 15"
 
 ISPUMP=`which pump > /dev/null 2>&1`
-if [ $? -eq 0 ];then
-  CMD="$CMD pump"
-fi
+#if [ $? -eq 0 ];then
+#  CMD="$CMD pump"
+#fi
 
 CMD="$CMD make $*"
 
