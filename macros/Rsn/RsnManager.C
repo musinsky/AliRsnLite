@@ -1,28 +1,30 @@
-#ifndef __CINT__
-#include <TList.h>
-#endif
 TList *RsnManager() {
 
-   Int_t isPP           = 1; // in GRID case it will be overwriten
-   Int_t useRsnMini     = 0;
+   Int_t isESD             = 0;
+   
+   Int_t isPP              = 1;
+   Int_t useRsnMini        = 1;
 
-   Int_t useMixing      = 0;
-   Int_t numMix         = 10;
+   Int_t useMixing         = 0;
+   Int_t numMix            = 10;
 
-   Int_t fullOutput     = 1;
-   Int_t mcMomentum     = 0;
-   Int_t mcMon          = 0;
+   Int_t fullOutput        = 1;
+   Int_t mcMomentum        = 0;
+   Int_t mcMon             = 0;
+   
+   Int_t usePhysSel        = 0;
+   Int_t useCentralityTask = 0;
 
-   Int_t useEventMixPar = 0;
-   Int_t useRsnPar      = 0;
-   Int_t useRsnParDev   = -1;
+   Int_t useEventMixPar    = 0;
+   Int_t useRsnPar         = 0;
+   Int_t useRsnParDev      = -1;
 
-   TString rootver = "v5-32-01";
+   TString rootver = "v5-33-02b";
    TString alirootver = "";
-//      alirootver = "v5-03-05-AN";
+//      alirootver = "v5-03-07-AN";
 
    TString legoTrainPath = "$ALICE_ROOT/PWGLF/RESONANCES/macros/lego_train";
-   legoTrainPath = "$HOME/git/AliRsn/PWGLF/RESONANCES/macros/lego_train";
+//    legoTrainPath = "$HOME/git/AliRsn/PWGLF/RESONANCES/macros/lego_train";
 
 
    TList *listRsn = new TList();
@@ -39,75 +41,13 @@ TList *RsnManager() {
    commonCutOption = "mon";
 //    commonCutOption += "_eta";
 
-   listRsn->Add(new TNamed("Phi","Phi2010"));
-// //    listRsn->Add(new TNamed("Phi","Phi2010:trackPtMax18"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:usePP"));
-// //    listRsn->Add(new TNamed("Phi","Phi2010:usePP_trackPtMax18"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma3"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOFsigma3"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly"));
+   AddResonanceToRsnManager(listRsn,"AddRsnToManagerPhi.C",legoTrainPath.Data());
+//    AddResonanceToRsnManager(listRsn,"AddRsnToManagerKStar.C",legoTrainPath.Data());
+//    AddResonanceToRsnManager(listRsn,"AddRsnToManagerRho.C",legoTrainPath.Data());
+//    AddResonanceToRsnManager(listRsn,"AddRsnToManagerLambda.C",legoTrainPath.Data());
 
 
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma1"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma1.5"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma2"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma2.5"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma3"));
-
-
-//    listRsn->Add(new TNamed("Phi","Phi2010:pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:usePP_pdg"));
-// //    listRsn->Add(new TNamed("Phi","Phi2010:trackPtMax18_pdg"));
-// //    listRsn->Add(new TNamed("Phi","Phi2010:usePP_trackPtMax18_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma3_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOFsigma3_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:qualityonly_pdg"));
-//
-//    listRsn->Add(new TNamed("Phi","PDG:NoTOFSIGMA"));
-
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma1_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma1.5_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma2_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma2.5_pdg"));
-//    listRsn->Add(new TNamed("Phi","Phi2010:tpconly_TPCsigma3_pdg"));
-
-// //    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOCsigma3_trackPtMax18"));
-// //    listRsn->Add(new TNamed("Phi","Phi2010:tofonly_TOCsigma3_trackPtMax18_pdg"));
-//
-//
-// //   listRsn->Add(new TNamed("Phi","BPID"));
-//
-// //   listRsn->Add(new TNamed("Phi","Phi2010:tpcptMax05"));
-// //   listRsn->Add(new TNamed("Phi","Phi2010:tpcptMax06"));
-// //   listRsn->Add(new TNamed("Phi","Phi2010:tpcptMax07"));
-// //   listRsn->Add(new TNamed("Phi","Phi2010:tpcptMax08"));
-// //   listRsn->Add(new TNamed("Phi","Phi2010:TPCsigma1_tpcptMax06"));
-// //   listRsn->Add(new TNamed("Phi","Phi2010:TPCsigma1_tpcptMax08"));
-//
-//    //
-//    //    // in case you have MC
-// //    listRsn->Add(new TNamed("Phi","PDG"));
-//
-
-//    listRsn->Add(new TNamed("Rho","Rho"));
-//    listRsn->Add(new TNamed("Rho","Rho:tpconly_TPCsigma1"));
-
-//    listRsn->Add(new TNamed("Lambda","Lambda"));
-//    listRsn->Add(new TNamed("Lambda","Lambda:TPCPsigma2_TPCKsigma1"));
-
-//
-//    //
-//    //    listRsn->Add(new TNamed("KStar","KStar2010:mon"));
-//    //    listRsn->Add(new TNamed("KStar","BPID:mon"));
-//
-//    //    listRsn->Add(new TNamed("KStar","KStar:mon"));
-//    //    listRsn->Add(new TNamed("KStar","KStar:TPCTOFpidDefaultKstarPP2010_mon"));
-//    //    listRsn->Add(new TNamed("KStar","KStar:FastTPCpid1point5sigma_mon"));
-//    //    listRsn->Add(new TNamed("KStar","KStar:FastTPCpid2sigma_mon"));
-
-//    listRsn->Add(new TNamed("Phi","PhiDev"));
-
-
+   
    //============= ONLY for GRID ====================
    TString dsConfig;
 
@@ -137,7 +77,7 @@ TList *RsnManager() {
    ///////////////////////////////////////////
    // don't edit next lines (EXPERTS ONLY)
    ///////////////////////////////////////////
-
+   
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
    if (!mgr) {
       Printf("Error[RsnManager] mgr is null !!!");
@@ -153,21 +93,21 @@ TList *RsnManager() {
    AliAnalysisManager::SetGlobalInt("rsnUseRSNPar",useRsnPar);
    AliAnalysisManager::SetGlobalInt("rsnUseRSNParDev",useRsnParDev);
    // common options
-   AliAnalysisManager::SetGlobalInt("rsnUsePhysSel",0);
+   AliAnalysisManager::SetGlobalInt("rsnUsePhysSel",usePhysSel);
+   AliAnalysisManager::SetGlobalInt("rsnUseCentralityTask",useCentralityTask);
    AliAnalysisManager::SetGlobalInt("rsnUsePIDResponse",1);
    // rsn options
 
+   AliAnalysisManager::SetGlobalInt("rsnUseMixing",useMixing);
    if (useRsnMini) {
       AliAnalysisManager::SetGlobalInt("rsnUseMiniPackage",1);
       AliAnalysisManager::SetGlobalInt("rsnUseRsnInputHandler",0);
       AliAnalysisManager::SetGlobalInt("rsnSplitMgrByTasks",1);
-      AliAnalysisManager::SetGlobalInt("rsnUseMixing",useMixing);
-
    } else  {
       AliAnalysisManager::SetGlobalInt("rsnUseMiniPackage",0);
       AliAnalysisManager::SetGlobalInt("rsnUseRsnInputHandler",1);
       AliAnalysisManager::SetGlobalInt("rsnSplitMgrByTasks",0);
-      AliAnalysisManager::SetGlobalInt("rsnUseMixing",0);
+//       AliAnalysisManager::SetGlobalInt("rsnUseMixing",0);
    }
 
    // mixing setting
@@ -190,6 +130,43 @@ TList *RsnManager() {
    AliAnalysisManager::SetGlobalStr("rsnLegoTrainAliROOTversion",alirootver.Data());
 
    AliAnalysisManager::SetGlobalStr("rsnLegoTrainCommonCutOption",commonCutOption.Data());
-
+   
    return listRsn;
 }
+
+Bool_t AddResonanceToRsnManager(TList *listRsn,TString rsnAddMacro="AddRsnToManagerPhi.C",TString path="") {
+   if (!listRsn) return kFALSE;
+   
+   RsnManagerLoadMacro(rsnAddMacro,path);
+   rsnAddMacro.ReplaceAll(".C","");
+   gROOT->ProcessLine(TString::Format("%s((TList*)%p)",rsnAddMacro.Data(),listRsn).Data());
+
+   return kTRUE;
+}
+
+Bool_t RsnManagerLoadMacro(TString macro,TString path="") {
+
+   TString lego_path=path;
+
+   if (lego_path.IsNull()) {
+      Bool_t valid;
+      lego_path = AliAnalysisManager::GetGlobalStr("rsnLegoTrainPath",valid);
+      if (!valid) lego_path = "$ALICE_ROOT/PWG2/RESONANCES/macros/lego_train";
+   }
+   if (!gSystem->AccessPathName(macro.Data())) {
+      gROOT->LoadMacro(macro.Data());
+      Printf("Macro loaded from %s/%s ...",gSystem->pwd(),macro.Data());
+      return kTRUE;
+   }
+
+   if (!gSystem->AccessPathName(gSystem->ExpandPathName(Form("%s/%s",lego_path.Data(),macro.Data())))) {
+      gROOT->LoadMacro(gSystem->ExpandPathName(Form("%s/%s",lego_path.Data(),macro.Data())));
+      Printf("Macro loaded from %s ...",gSystem->ExpandPathName(Form("%s/%s",lego_path.Data(),macro.Data())));
+      return kTRUE;
+   }
+
+   Printf("Error loading %s",macro.Data());
+
+   return kFALSE;
+}
+
