@@ -1,18 +1,8 @@
 #!/bin/bash
 #!/bin/bash
 
-ALIRSNLITE_SRC_DIR=""
+ALIRSNLITE_SRC_DIR="$(dirname $(dirname $(readlink -m $0)))"
 
-
-function SetAliRsnLiteSrcDir() {
-  if [ "${0:0:1}" == "." ];then
-    ALIRSNLITE_SRC_DIR="`cd ../;pwd`"
-  elif [ "${0:0:1}" == "/" ];then
-    ALIRSNLITE_SRC_DIR="`cd $(dirname $0)/../;pwd`"
-  else
-    ALIRSNLITE_SRC_DIR="`cd $(dirname ${PWD}/$0)/../;pwd`"
-  fi
-}
 function CreateDir() {
   
   if [ -z "$1" ];then
@@ -53,7 +43,6 @@ function SetMacros() {
 
 }
 
-SetAliRsnLiteSrcDir
 ALIRSNLITE_MACROS_DIR="$ALIRSNLITE_SRC_DIR/macros"
 ALIRSNLITE_TASKS_DIR="$ALIRSNLITE_MACROS_DIR/AliRsnLiteWork/tasks"
 

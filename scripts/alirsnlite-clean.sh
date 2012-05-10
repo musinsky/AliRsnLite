@@ -1,18 +1,6 @@
 #!/bin/bash
 
-ALIRSNLITE_SRC_DIR=""
-
-function SetAliRsnLiteSrcDir() {
-  if [ "${0:0:1}" == "." ];then
-    ALIRSNLITE_SRC_DIR="`cd ../;pwd`"
-  elif [ "${0:0:1}" == "/" ];then
-    ALIRSNLITE_SRC_DIR="`cd $(dirname $0)/../;pwd`"
-  else
-    ALIRSNLITE_SRC_DIR="`cd $(dirname ${PWD}/$0)/../;pwd`"
-  fi
-}
-
-SetAliRsnLiteSrcDir
+ALIRSNLITE_SRC_DIR="$(dirname $(dirname $(readlink -m $0)))"
 
 DIRS_REMOVE="ANALYSIS CORRFW OADB PWGLF STEER lib include pars"
 
