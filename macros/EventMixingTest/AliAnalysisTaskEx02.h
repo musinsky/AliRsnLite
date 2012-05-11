@@ -15,7 +15,10 @@
 
 class TH1F;
 class TList;
+class AliAnalysisManager;
 class AliESDtrackCuts;
+class AliMultiInputEventHandler;
+class AliMixInputEventHandler;
 
 #ifndef ALIANALYSISTASKSE_H
 #include "AliAnalysisTaskSE.h"
@@ -46,6 +49,12 @@ public:
    void SetUseLoopMixedEvent(Bool_t useMixEvent=kTRUE) { fUseLoopMixedEvent = useMixEvent;}
    void SetLoopV0(Bool_t useV0=kTRUE) { fUseLoopV0 = useV0;}
 
+   AliVEvent* GetMainEvent();
+   AliVEvent* GetMixedEvent(Int_t buffId=0);
+
+   AliMultiInputEventHandler *SetMainInputHandler(AliAnalysisManager *mgr);
+   AliMixInputEventHandler *SetMixingInputHandler(AliMultiInputEventHandler *mainIH);
+
 private:
    TList           *fOutput;               // Output list
    TH1F            *fHistPt;               // Pt spectrum
@@ -58,6 +67,9 @@ private:
    Bool_t           fUseLoopInUserExecMix; //
    Bool_t           fUseLoopMixedEvent; //
    Bool_t           fUseLoopV0; //
+   
+   AliMultiInputEventHandler *fMainInputHandler;    //! tmp pointer to mixing input handler
+   AliMixInputEventHandler   *fMixingInputHandler;  //! tmp pointer to mixing input handler
 
    AliAnalysisTaskEx02(const AliAnalysisTaskEx02 &); // not implemented
    AliAnalysisTaskEx02 &operator=(const AliAnalysisTaskEx02 &); // not implemented

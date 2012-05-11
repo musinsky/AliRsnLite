@@ -1,17 +1,24 @@
 #ifndef __CINT__
+#include <Rtypes.h>
+#include <AliLog.h>
 #endif
+
 void AddAnalysisTaskMixInfo(TString opts = "")
 {
    // create manager
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
    if (!mgr) return;
 
+   mgr->AddClassDebug("AliAODInputHandler",AliLog::kError);
+   mgr->AddClassDebug("AliAODEvent",AliLog::kError);
+   
    // create our task
    AliAnalysisTaskMixInfo *task = new AliAnalysisTaskMixInfo("AliAnalysisTaskMixInfo");
    Int_t debugLevel = 1;
    TString myclasses = "";
 //    myclasses += ":AliAnalysisTaskMixInfo";
 //    myclasses += ":AliAnalysisTaskEx02";
+//    myclasses += ":AliMixInputEventHandler";
 
    if (!myclasses.IsNull()) task->SetLogType(AliLog::kDebug + debugLevel, myclasses);
 
