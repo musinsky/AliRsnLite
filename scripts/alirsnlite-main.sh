@@ -1,6 +1,4 @@
 #!/bin/bash
-
-ALIRSNLITE_SRC_DIR="$(dirname $(dirname $(readlink -m $0)))"
 PRE_CMD="nice -n 15"
 CMD=""
 POST_CMD=""
@@ -39,14 +37,6 @@ function CreateDir() {
   if [ ! -d $1 ];then
       mkdir -p $1  
   fi
-}
-
-function SetAliRsnLiteSrcDir() {
-
-  ALIRSNLITE_WORKSRC="$ALIRSNLITE_SRC_DIR/macros/AliRsnLiteWork"
-  ALIRSNLITE_TASKS_DIR="$ALIRSNLITE_WORKSRC/tasks"
-
-  test -d $ALIRSNLITE_TASKS_DIR || mkdir -p $ALIRSNLITE_TASKS_DIR
 }
 
 function CreateParfiles() {
@@ -170,13 +160,15 @@ function Run() {
   $PRE_CMD $CMD$ARGS$MACRO $POST_CMD
 }
 
-if [ "$#" == "0" ]; then
+if [ "$#" = "0" ]; then
   ShowHelp
   exit 1
 fi
 
-# Sets AliRsnLiteSrcDir (we assume that this script is running from $ALIRSNLITE_SRC_DIR/scripts)
-SetAliRsnLiteSrcDir
+ALIRSNLITE_SRC_DIR="$(dirname $(dirname $(readlink -m $0)))"
+ALIRSNLITE_WORKSRC="$ALIRSNLITE_SRC_DIR/macros/AliRsnLiteWork"
+ALIRSNLITE_TASKS_DIR="$ALIRSNLITE_WORKSRC/tasks"
+test -d $ALIRSNLITE_TASKS_DIR || mkdir -p $ALIRSNLITE_TASKS_DIR
 
 while [[ $1 = -* ]]; do
     arg=$1; shift
