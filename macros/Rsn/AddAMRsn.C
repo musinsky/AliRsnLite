@@ -21,6 +21,7 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
    Int_t useRsnIH = AliAnalysisManager::GetGlobalInt("rsnUseRsnInputHandler",valid);
    Int_t physSel = AliAnalysisManager::GetGlobalInt("rsnUsePhysSel",valid);
    Int_t useCentralityTask = AliAnalysisManager::GetGlobalInt("rsnUseCentralityTask",valid);
+   Int_t useEventPlaneTask = AliAnalysisManager::GetGlobalInt("rsnUseEventPlaneTask",valid);
    Int_t splitMgrByTask = AliAnalysisManager::GetGlobalInt("rsnSplitMgrByTasks",valid);
 
    Int_t useMixing = AliAnalysisManager::GetGlobalInt("rsnUseMixing",valid);
@@ -55,10 +56,10 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
 
    AliMultiInputEventHandler *multiInputHandler = 0;
    AliInputEventHandler *inputHandler = mgr->GetInputEventHandler();
-   
+
    TString className = inputHandler->ClassName();
    if (!className.CompareTo("AliMultiInputEventHandler")) {
-      multiInputHandler = (AliMultiInputEventHandler*)inputHandler;
+      multiInputHandler = (AliMultiInputEventHandler *)inputHandler;
    }
 
    AliRsnInputHandler *rsnIH=0;
@@ -91,13 +92,19 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
       AliCentralitySelectionTask *centralityTask = AddTaskCentrality(kFALSE);
    }
 
+   if (useEventPlaneTask) {
+      gROOT->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskEventplane.C");
+      AliEPSelectionTask *eventPlaneTask = AddTaskEventplane();
+   }
+
+
    // load and run AddTask macro
    if (!RsnLoadMacro("AddRsnAnalysisTask.C")) return kFALSE;
    if (!RsnLoadMacro("RsnConfig.C")) return kFALSE;
    if (!RsnLoadMacro("AddMixingHandler.C")) return kFALSE;
    if (!analysisSource.CompareTo("grid")) {
       if (!RsnLoadMacro("RsnGridPlugin.C")) return kFALSE;
-      RsnGridPlugin();
+      RsnGridPlugin(analysisMode);
    }
 
    if (splitMgrByTask) {
