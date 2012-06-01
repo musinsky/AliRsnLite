@@ -5,6 +5,7 @@ build
 lib
 include
 pars
+tmp
 ANALYSIS
 CORRFW
 OADB

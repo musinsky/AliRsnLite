@@ -157,6 +157,8 @@ function Run() {
   echo "#!/bin/bash" > alirsnlite-cmd.sh
   echo "$PRE_CMD $CMD$ARGS'$MACRO_LITE' $POST_CMD" >> alirsnlite-cmd.sh
   chmod +x alirsnlite-cmd.sh
+  test -d $ALIRSNLITE_SRC_DIR/tmp || mkdir $ALIRSNLITE_SRC_DIR/tmp
+  cp -f alirsnlite-cmd.sh $ALIRSNLITE_SRC_DIR/tmp/
   $PRE_CMD $CMD$ARGS$MACRO $POST_CMD
 }
 
