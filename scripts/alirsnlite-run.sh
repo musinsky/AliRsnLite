@@ -163,6 +163,8 @@ function Run() {
 function AddCmdToHistory() {
   test -d $ALIRSNLITE_SRC_DIR/tmp || mkdir $ALIRSNLITE_SRC_DIR/tmp
   echo "$(readlink -m $0) $*" >> $ALIRSNLITE_SRC_DIR/tmp/alirsnlite-history.log
+  uniq $ALIRSNLITE_SRC_DIR/tmp/alirsnlite-history.log $ALIRSNLITE_SRC_DIR/tmp/alirsnlite-history.log.uniq
+  mv $ALIRSNLITE_SRC_DIR/tmp/alirsnlite-history.log.uniq $ALIRSNLITE_SRC_DIR/tmp/alirsnlite-history.log
 }
 
 if [ "$#" = "0" ]; then
