@@ -157,9 +157,12 @@ function Run() {
   echo "#!/bin/bash" > alirsnlite-cmd.sh
   echo "$PRE_CMD $CMD$ARGS'$MACRO_LITE' $POST_CMD" >> alirsnlite-cmd.sh
   chmod +x alirsnlite-cmd.sh
-  test -d $ALIRSNLITE_SRC_DIR/tmp || mkdir $ALIRSNLITE_SRC_DIR/tmp
-  cp -f alirsnlite-cmd.sh $ALIRSNLITE_SRC_DIR/tmp/
   $PRE_CMD $CMD$ARGS$MACRO $POST_CMD
+}
+
+function AddCmdToHistory() {
+  test -d $ALIRSNLITE_SRC_DIR/tmp || mkdir $ALIRSNLITE_SRC_DIR/tmp
+  echo "$(readlink -m $0) $*" >> $ALIRSNLITE_SRC_DIR/tmp/alirsnlite-history.log
 }
 
 if [ "$#" = "0" ]; then
@@ -171,6 +174,8 @@ ALIRSNLITE_SRC_DIR="$(dirname $(dirname $(readlink -m $0)))"
 ALIRSNLITE_WORKSRC="$ALIRSNLITE_SRC_DIR/macros/AliRsnLiteWork"
 ALIRSNLITE_TASKS_DIR="$ALIRSNLITE_WORKSRC/tasks"
 test -d $ALIRSNLITE_TASKS_DIR || mkdir -p $ALIRSNLITE_TASKS_DIR
+
+AddCmdToHistory $*
 
 while [[ $1 = -* ]]; do
     arg=$1; shift
