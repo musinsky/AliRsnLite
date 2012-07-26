@@ -45,7 +45,8 @@ AliAnalysisTaskEvil::AliAnalysisTaskEvil(const char *name)
      fOutputList(0),
      fHistPtMC(0),
      fBadHost(),
-     fNumLoopsInOneEvent(1)
+     fNumLoopsInOneEvent(1),
+     fAODTestFilterBit(0)
 
 {
    // Constructor
@@ -269,6 +270,11 @@ void AliAnalysisTaskEvil::LoopAOD() {
          Error("UserExec", "Could not receive track %d", iTracks);
          continue;
       }
+      
+      if (fAODTestFilterBit) {
+         if (!track->TestFilterBit(fAODTestFilterBit)) continue;
+      }
+      
       for (Int_t i = 0; i < fNum1D; i++) {
          if (fHistPt[i]) fHistPt[i]->Fill(track->Pt());
       }

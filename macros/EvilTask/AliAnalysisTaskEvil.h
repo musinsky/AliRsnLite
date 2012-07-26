@@ -38,6 +38,8 @@ public:
    void SetNumLoopsInOneEvent(const Int_t numLoops) { fNumLoopsInOneEvent = numLoops; }
    void PrintProcInfo();
    void SetBadHost(TString hostname = "", Int_t num = 0) { fBadHost = hostname; fNumMemoryLeakOnSingleNode = num; }
+   void SetAODTestFilterBit(UInt_t bit) { fAODTestFilterBit = bit; }
+   
 private:
 
    Int_t        fHistBin;
@@ -63,6 +65,8 @@ private:
 
    TString      fBadHost;                    // bad host string
    Int_t        fNumLoopsInOneEvent;         // number of loops in one event
+   
+   UInt_t       fAODTestFilterBit;           // AOD filter bit (2,4,8,16,32,...)
 
    AliAnalysisTaskEvil(const AliAnalysisTaskEvil &); // not implemented
    AliAnalysisTaskEvil &operator=(const AliAnalysisTaskEvil &); // not implemented
