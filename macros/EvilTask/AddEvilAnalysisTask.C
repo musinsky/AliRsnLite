@@ -11,6 +11,11 @@ AliAnalysisTask *AddEvilAnalysisTask(TString format = "esd", Bool_t useMC = kFAL
    task->UseMC(useMC);
 
    task->SetHistRange(100, 0, 10);
+   
+   Int_t aodIDCut = 1;
+   aodIDCut = 7;
+   UInt_t aodFilterBit = 1 << aodIDCut;
+   task->SetAODTestFilterBit(aodFilterBit);
 
    // add some more 1D histograms
 //   task->SetNum1D(100);
