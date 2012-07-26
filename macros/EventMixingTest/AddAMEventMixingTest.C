@@ -1,11 +1,11 @@
 Bool_t AddAMEventMixingTest(TString analysisSource = "proof", TString analysisMode = "test",TString input="aod",TString inputMC="", TString postfix = "",TString idStr="0")
 {
   
-   Bool_t useEventMixingPar      = 0;
-
-   Int_t usePhysSel              = 0;
-   
+   Bool_t useEventMixingPar      = 1;
+   Int_t usePhysSel              = 1;
    Bool_t useMC = !inputMC.CompareTo("mc");
+
+   input.ToLower();
 
    // ALICE stuff
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
@@ -27,7 +27,7 @@ Bool_t AddAMEventMixingTest(TString analysisSource = "proof", TString analysisMo
 
   AliMultiInputEventHandler *multiInputHandler = mgr->GetInputEventHandler();
 
-   if (usePhysSel) {
+   if (usePhysSel && !input.CompareTo("esd")) {
       gROOT->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPhysicsSelection.C");
       AddTaskPhysicsSelection(useMC);
 
@@ -41,14 +41,11 @@ Bool_t AddAMEventMixingTest(TString analysisSource = "proof", TString analysisMo
       }
    }
 
-
   // add mixing handler (uncomment to turn on Mixnig)
   gROOT->LoadMacro("AddMixingHandler.C");
   AddMixingHandler(multiInputHandler, input, useMC,postfix);
-  
-   
 
-//    // load and run AddTask macro
+   // load and run AddTask macro
    gROOT->LoadMacro("AddEventMixingTestTask.C");
    AddEventMixingTestTask(input, useMC, postfix);
 
