@@ -14,13 +14,6 @@ void AddAnalysisTaskMixInfo(TString opts = "")
    
    // create our task
    AliAnalysisTaskMixInfo *task = new AliAnalysisTaskMixInfo("AliAnalysisTaskMixInfo");
-   Int_t debugLevel = 1;
-   TString myclasses = "";
-//    myclasses += ":AliAnalysisTaskMixInfo";
-//    myclasses += ":AliAnalysisTaskEx02";
-//    myclasses += ":AliMixInputEventHandler";
-
-   if (!myclasses.IsNull()) task->SetLogType(AliLog::kDebug + debugLevel, myclasses);
 
    // create mix output container
    AliAnalysisDataContainer *outputMix = mgr->CreateContainer("cMixInfoList", TList::Class(), AliAnalysisManager::kOutputContainer, Form("MixInfo%s.root", opts.Data()));
