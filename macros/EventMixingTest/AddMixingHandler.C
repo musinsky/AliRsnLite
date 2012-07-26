@@ -3,8 +3,8 @@
 #endif
 void AddMixingHandler ( AliMultiInputEventHandler *multiInputHandler,TString format = "esd", Bool_t useMC = kFALSE, TString opts = "" ) {
 
-   const Int_t bufferSize = 1;
-   const Int_t mixNum = 10;
+   const Int_t bufferSize = 2;
+   const Int_t mixNum = 1;
    if ( !multiInputHandler ) return;
 
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
@@ -23,7 +23,7 @@ void AddMixingHandler ( AliMultiInputEventHandler *multiInputHandler,TString for
 //    AliMixEventCutObj *zvertex = new AliMixEventCutObj(AliMixEventCutObj::kZVertex, -10, 10, 1);
 //
 //     AliMixEventCutObj *centrality = new AliMixEventCutObj ( AliMixEventCutObj::kCentrality, 0, 100, 10, "V0M" );
-    AliMixEventCutObj *zvertex = new AliMixEventCutObj ( AliMixEventCutObj::kZVertex, -10, 10, 1 );
+   AliMixEventCutObj *zvertex = new AliMixEventCutObj ( AliMixEventCutObj::kZVertex, -10, 10, 1 );
 
 //    evPool->AddCut(centrality);
    evPool->AddCut(multi);
@@ -32,8 +32,10 @@ void AddMixingHandler ( AliMultiInputEventHandler *multiInputHandler,TString for
    // adds event pool (comment it and u will have default mixing)
    mixHandler->SetEventPool ( evPool );
 
-   mixHandler->SelectCollisionCandidates(AliVEvent::kAny);
+//   mixHandler->SelectCollisionCandidates(AliVEvent::kAny);
 //    mixHandler->SelectCollisionCandidates(AliVEvent::kAnyINT);
+//    mixHandler->SelectCollisionCandidates(AliVEvent::kMB);
+   mixHandler->SelectCollisionCandidates(AliVEvent::kMUSPB);
 
 
 //    mixHandler->DoMixIfNotEnoughEvents(kFALSE);
