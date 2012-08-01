@@ -1,17 +1,23 @@
 #!/bin/bash
 
+MY_PWD=`pwd`
+
+PROJECT_DIR="$(dirname $(dirname $(readlink -m $0)))"
+
+if [ ! -d $PROJECT_DIR/build ];then
+    mkdir -p $PROJECT_DIR/build
+fi
+
+cd $PROJECT_DIR/build
+
 if [ ! -f Makefile ];then
-  cmake ../ -DALIRSNLITE_SYNC=YES $USER_CMAKE_EXTRA_OPTIONS
+  cmake -DCMAKE_INSTALL_PREFIX="$PROJECT_DIR" -DALIRSNLITE_SYNC=YES ../
 fi
 
 CMD="nice -n 15"
 
-ISPUMP=`which pump > /dev/null 2>&1`
-#if [ $? -eq 0 ];then
-#  CMD="$CMD pump"
-#fi
-
 CMD="$CMD make $*"
 
-$CMD
+$CMD || exit $?
 
+cd $MY_PWD
