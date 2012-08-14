@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 
 ALIRSNLITE_SRC_DIR="$(dirname $(dirname $(readlink -m $0)))"
 
@@ -48,6 +47,15 @@ ALIRSNLITE_TASKS_DIR="$ALIRSNLITE_MACROS_DIR/AliRsnLiteWork/tasks"
 
 CreateDir $ALIRSNLITE_TASKS_DIR
 
+if [ "$#" = "0" ]; then
+  echo ""
+  ShowHelp
+  echo ""
+  ListMacros
+  exit 1
+fi
+
+
 while [[ $1 = -* ]]; do
     arg=$1; shift
     case $arg in
@@ -64,7 +72,7 @@ while [[ $1 = -* ]]; do
       rm -Rf $ALIRSNLITE_TASKS_DIR/*
     ;;
     *)
-    ShowHelp
+      ListMacros
     ;;
   esac
 done
