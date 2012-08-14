@@ -6,7 +6,7 @@ ARGS=" "
 MACRO=""
 USE_OLD_DIR=""
 ALIRSNLITE_OUTDIR="/tmp/alirsnlite"
-ALIRSNLITE_OUTPUTDIR="/tmp/alirsnlite-out"
+#ALIRSNLITE_OUTPUTDIR="/tmp/alirsnlite-out"
 ALIRSNLITE_IDFILE="$ALIRSNLITE_OUTDIR/.alirsnliteid"
 ALIRSNLITE_ID="1"
 ALIRSNLITE_WKDIR=""
@@ -162,7 +162,7 @@ function Run() {
   chmod +x alirsnlite-cmd.sh
   $PRE_CMD $CMD$ARGS$MACRO $POST_CMD
   
-  mv *.root $ALIRSNLITE_OUTPUTDIR/
+#  mv *.root $ALIRSNLITE_OUTPUTDIR/
 }
 
 function AddCmdToHistory() {

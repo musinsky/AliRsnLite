@@ -55,6 +55,10 @@ Bool_t RunALICE(TString anSrc = "grid",
    timer.Stop();
    timer.Print();
    Printf("Working directory is %s ...", gSystem->WorkingDirectory());
+   TString outputDir =  gSystem->WorkingDirectory();
+   outputDir.ReplaceAll("alirsnlite","alirsnlite-out");
+   gSystem->Exec(TString::Format("mkdir -p %s",outputDir.Data()).Data());
+   gSystem->Exec(TString::Format("mv *.root %s/ > /dev/null 2>&1",outputDir.Data()).Data());
    Printf("Done OK");
    return kTRUE;
 
