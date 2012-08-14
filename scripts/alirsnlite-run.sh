@@ -6,6 +6,7 @@ ARGS=" "
 MACRO=""
 USE_OLD_DIR=""
 ALIRSNLITE_OUTDIR="/tmp/alirsnlite"
+ALIRSNLITE_OUTPUTDIR="/tmp/alirsnlite-out"
 ALIRSNLITE_IDFILE="$ALIRSNLITE_OUTDIR/.alirsnliteid"
 ALIRSNLITE_ID="1"
 ALIRSNLITE_WKDIR=""
@@ -69,8 +70,10 @@ function InitWorkingDir() {
 
   # create working direcotry
   ALIRSNLITE_WKDIR="${ALIRSNLITE_OUTDIR}/`printf "%04.0f" $ALIRSNLITE_ID`"
+  ALIRSNLITE_OUTPUTDIR="${ALIRSNLITE_OUTPUTDIR}/`printf "%04.0f" $ALIRSNLITE_ID`"
   echo "Creating $ALIRSNLITE_WKDIR ..."
   test -d $ALIRSNLITE_WKDIR || mkdir -p $ALIRSNLITE_WKDIR
+  test -d $ALIRSNLITE_OUTPUTDIR || mkdir -p $ALIRSNLITE_OUTPUTDIR
 
   # create last link
   ln -sfn $ALIRSNLITE_WKDIR $ALIRSNLITE_OUTDIR/last
@@ -158,6 +161,8 @@ function Run() {
   echo "$PRE_CMD $CMD$ARGS'$MACRO_LITE' $POST_CMD" >> alirsnlite-cmd.sh
   chmod +x alirsnlite-cmd.sh
   $PRE_CMD $CMD$ARGS$MACRO $POST_CMD
+  
+  mv *.root $ALIRSNLITE_OUTPUTDIR/
 }
 
 function AddCmdToHistory() {
@@ -229,6 +234,7 @@ while [[ $1 = -* ]]; do
     ;;
     --alirsnlite-env)
       ALIRSNLITE_USE_ENV="1"
+      export ALICE_ROOT="$ALIRSNLITE_SRC_DIR"
       export LD_LIBRARY_PATH="$ALIRSNLITE_SRC_DIR/lib/tgt_`root-config --arch`:$LD_LIBRARY_PATH"
       export PATH="$ALIRSNLITE_SRC_DIR/bin/tgt_`root-config --arch`:$PATH"
       echo "$LD_LIBRARY_PATH"
