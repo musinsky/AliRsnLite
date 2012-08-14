@@ -11,7 +11,7 @@ fi
 cd $PROJECT_DIR/build
 
 if [ ! -f Makefile ];then
-  cmake -DCMAKE_INSTALL_PREFIX="$PROJECT_DIR" -DALIRSNLITE_SYNC=YES ../
+  cmake -DCMAKE_INSTALL_PREFIX="$PROJECT_DIR" -DALIRSNLITE_SYNC=YES $ALIRSNLITE_OPTS ../
 fi
 
 CMD="nice -n 15"
