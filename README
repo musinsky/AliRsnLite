@@ -13,7 +13,8 @@ cd build
 cmake -DALIRSNLITE_SYNC=YES -DPWG2resonances="/home/mvala/projects/PWG2resonances" -DEventMixing="/home/mvala/projects/EventMixing/" ../
 
 # NEW cmake instruction
-export USER_CMAKE_EXTRA_OPTIONS="-DPWGLFresonances=/home/mvala/git/AliRsn"
+export ALIRSNLITE_OPTS="-DPWGLFresonances=/home/mvala/git/AliRsn"
+# export ALIRSNLITE_OPTS="-DPWGLFresonancesdev=/home/mvala/git/AliRsnDev"
 mkdir build
 cd build
 <AliRsnLite-path>/scripts/alirsnlite-make.sh -j3
