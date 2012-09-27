@@ -85,6 +85,11 @@ macro(AliRsnLite_Sync)
             endif(EXISTS ${CMAKE_SOURCE_DIR}/${srcdir}/macros)
           endif(EXISTS ${ALIRSNLITE_SRC}/${srcdir}/macros)
           file(COPY ${CMAKE_SOURCE_DIR}/cmake/scripts/Makefile DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
+          
+          foreach(add_dir ${ADDITIONAL_DIRS})
+            message(STATUS "${CMAKE_SOURCE_DIR}/${add_dir}")
+            file(COPY ${CMAKE_SOURCE_DIR}/${add_dir} DESTINATION ${CMAKE_SOURCE_DIR}/${srcdir})
+          endforeach(add_dir ${ADDITIONAL_DIRS})
           execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/cmake/scripts/patch-${PAR}.sh ${PAR} ${ALIRSNLITE_SRC} ${CMAKE_SOURCE_DIR})
 
         else(EXISTS ${ALIRSNLITE_SRC}/${file})
