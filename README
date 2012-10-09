@@ -1,5 +1,9 @@
 # mvala (edited from web page)
 
+# Easy and fast
+export ALIRSNLITE_OPTS='-DPWGLFresonances=/home/mvala/git/AliRsn'
+<AliRsnLite-path>/scripts/alirsnlite-make.sh -j5 install
+
 # cmake example from $ALICE_ROOT
 cd <AliRsnLite-path>
 mkdir build
@@ -10,13 +14,11 @@ cmake -DALIRSNLITE_SYNC=YES ../
 cd <AliRsnLite-path>
 mkdir build
 cd build
-cmake -DALIRSNLITE_SYNC=YES -DPWG2resonances="/home/mvala/projects/PWG2resonances" -DEventMixing="/home/mvala/projects/EventMixing/" ../
+cmake -DALIRSNLITE_SYNC=YES -DPWGLFresonances=/home/mvala/git/AliRsn/ -DEventMixing=/home/mvala/git/EventMixing/ ../
 
 # NEW cmake instruction
 export ALIRSNLITE_OPTS="-DPWGLFresonances=/home/mvala/git/AliRsn"
 # export ALIRSNLITE_OPTS="-DPWGLFresonancesdev=/home/mvala/git/AliRsnDev"
-mkdir build
-cd build
 <AliRsnLite-path>/scripts/alirsnlite-make.sh -j3
 
 
