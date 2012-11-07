@@ -37,7 +37,7 @@ function SetMacros() {
     MY_TASK_OPT="`echo $MY_TASK | awk -F ':' '{print $2}'`"
     test -n "$MY_TASK_OPT" && MY_TASK_OPT="_$MY_TASK_OPT"
     echo "Setting task $MY_TASK_NAME opt='$MY_TASK_OPT' ..."
-    ln -s $ALIRSNLITE_MACROS_DIR/$MY_TASK $ALIRSNLITE_TASKS_DIR/AddAM${MY_TASK_NAME}${MY_TASK_OPT}
+    ln -s $ALIRSNLITE_MACROS_DIR/$MY_TASK_NAME $ALIRSNLITE_TASKS_DIR/AddAM${MY_TASK_NAME}${MY_TASK_OPT}
   done
 
 }
