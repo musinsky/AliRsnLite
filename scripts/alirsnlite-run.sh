@@ -6,7 +6,7 @@ ARGS=" "
 MACRO=""
 USE_OLD_DIR=""
 ALIRSNLITE_OUTDIR="/tmp/alirsnlite"
-#ALIRSNLITE_OUTPUTDIR="/tmp/alirsnlite-out"
+ALIRSNLITE_OUTPUTDIR="/tmp/alirsnlite-out"
 ALIRSNLITE_IDFILE="$ALIRSNLITE_OUTDIR/.alirsnliteid"
 ALIRSNLITE_ID="1"
 ALIRSNLITE_WKDIR=""
@@ -70,6 +70,7 @@ function InitWorkingDir() {
 
   # create working direcotry
   ALIRSNLITE_WKDIR="${ALIRSNLITE_OUTDIR}/`printf "%04.0f" $ALIRSNLITE_ID`"
+  ALIRSNLITE_OUTPUTDIR_BASE=${ALIRSNLITE_OUTPUTDIR}
   ALIRSNLITE_OUTPUTDIR="${ALIRSNLITE_OUTPUTDIR}/`printf "%04.0f" $ALIRSNLITE_ID`"
   echo "Creating $ALIRSNLITE_WKDIR ..."
   test -d $ALIRSNLITE_WKDIR || mkdir -p $ALIRSNLITE_WKDIR
@@ -77,6 +78,7 @@ function InitWorkingDir() {
 
   # create last link
   ln -sfn $ALIRSNLITE_WKDIR $ALIRSNLITE_OUTDIR/last
+  ln -sfn $ALIRSNLITE_OUTPUTDIR $ALIRSNLITE_OUTPUTDIR_BASE/last
   
   cd $ALIRSNLITE_WKDIR
 
