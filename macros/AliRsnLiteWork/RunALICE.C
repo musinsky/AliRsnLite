@@ -59,6 +59,7 @@ Bool_t RunALICE(TString anSrc = "grid",
    outputDir.ReplaceAll("alirsnlite","alirsnlite-out");
    gSystem->Exec(TString::Format("mkdir -p %s",outputDir.Data()).Data());
    gSystem->Exec(TString::Format("mv *.root %s/ > /dev/null 2>&1",outputDir.Data()).Data());
+   gSystem->cd(outputDir.Data());
    Printf("Done OK");
    return kTRUE;
 
@@ -86,7 +87,11 @@ Int_t LoadLibsBase(TString alirsnlitesrc) {
 
 Bool_t CreateInputHandlers(TString input,TString inputMC,Bool_t useAODOut=kFALSE,Bool_t useMultiHandler=kTRUE) {
 
+	input.ToLower();
+	inputMC.ToLower();
+
    Bool_t useMC = !inputMC.CompareTo("mc");
+
 
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
    if (!mgr) { Printf("Error [CreateInputHandlers] : mgr is null !!!"); return kFALSE; }
@@ -94,6 +99,7 @@ Bool_t CreateInputHandlers(TString input,TString inputMC,Bool_t useAODOut=kFALSE
    if (useMultiHandler) {
       AliMultiInputEventHandler *inputHandler = new AliMultiInputEventHandler();
       if (!input.CompareTo("esd")) {
+      	Printf("Adding ESD Input Handler ...");
          inputHandler->AddInputEventHandler(new AliESDInputHandler());
          if (useMC) inputHandler->AddInputEventHandler(new AliMCEventHandler());
       } else if (!input.CompareTo("aod")) {
