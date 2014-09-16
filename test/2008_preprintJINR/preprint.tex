@@ -1,0 +1,56 @@
+% -*- mode: LaTeX; coding: utf-8; -*-
+
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{indentfirst}
+
+\graphicspath{{pictures/}}
+\pdfinfo{
+  /Author (Jan Musinsky)
+  /Title (Drift chambers on STRELA)
+  /Subject (Drift chambers)
+  /Keywords (Detectors; Drift chambers; STRELA; autocalibration)
+}
+
+\begin{document}
+
+\input{first_page.tex}
+\clearpage \input{text.tex}
+
+\begin{thebibliography}{99}
+\bibitem{cejp:2008}
+  \emph{Glagolev V. V. et al. //} Cent. Eur. J. Phys. 2008. V. 6(4). P.781-785
+\bibitem{strela:web}
+  \emph{http://strela.jinr.ru}
+\bibitem{filatova:1977}
+  \emph{Filatova N. A. et al. //} Nucl. Instr. and Meth. 1977. V. 143. P.17-28
+\bibitem{vodopianov:1975}
+  \emph{Водопьянов А. С. и др.//} препринт ОИЯИ P13-9351. Дубна, 1975.
+\bibitem{vodopianov:1983}
+  \emph{Водопьянов А. С. и др.//} препринт ОИЯИ P1-83-12. Дубна, 1983.
+\bibitem{hera:web}
+  http://www-hera-b.desy.de/subgroup/detector/tracker/outer/
+\bibitem{erfc:web}
+  http://root.cern.ch/root/html/TMath.html\#TMath:Erfc
+\bibitem{peshenov:1986}
+  \emph{В. Пешехонов //} Физ. элем. частиц и атом. ядра. 1986. Т. 17(5).
+  с.1030-1078
+\bibitem{amelung:2004}
+  \emph{Ch. Amelung //} ATLAS Muon Note, ATL-MUON-2004-020, 2004.
+\end{thebibliography}
+
+\clearpage \input{abstract_ru.tex}
+\clearpage \input{abstract_en.tex}
+
+\end{document}
+
+
+
+%%% Local Variables:
+%%% TeX-master: t
+%%% End:
